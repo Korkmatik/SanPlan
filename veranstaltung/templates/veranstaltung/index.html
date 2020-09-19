@@ -1,0 +1,37 @@
+{% include 'base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-5">
+        {% for veranstaltung in veranstaltungen %}
+            <div class="card ml-3">
+              <div class="card-header">
+                  <b>{{ veranstaltung.titel }}</b>
+              </div>
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item">{{ veranstaltung.get_date }}</li>
+                {% if veranstaltung.get_adresse != None %}
+
+                <li class="list-group-item">
+                    <b>Adresse</b>
+                    <div>
+                        {{ veranstaltung.get_adresse.get_name|default_if_none:"--" }} <br>
+                        <a href="{{ veranstaltung.get_adresse.get_google_maps_link_for_strasse }}">{{ veranstaltung.get_adresse.get_strasse }}</a><br>
+                        <a href="{{ veranstaltung.get_adresse.get_google_maps_link_for_ort }}">{{ veranstaltung.get_adresse.get_ort }}</a><br>
+                    </div>
+                </li>
+                  {% endif %}
+
+                {% if veranstaltung.hat_einheiten %}
+                <li class="list-group-item">
+                    <b>EVTs: </b> {{ veranstaltung.get_anzahl_evts }} <br>
+                </li>
+                {% endif %}
+              </ul>
+              <div class="card-footer d-flex flex-row justify-content-center">
+                  <a href="{{ veranstaltung.get_absolute_url }}" class="btn btn-outline-primary">Anzeigen</a>
+                  <a href="#" class="btn btn-outline-danger ml-1">Löschen</a>
+              </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

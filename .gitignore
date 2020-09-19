@@ -1,4 +1,8 @@
+# Custom ignores
 .idea
+fahrzeuge/static/fahrzeug_pics/
+fahrzeuge/migrations/
+veranstaltung/migrations/
 
 ### Django ###
 *.log

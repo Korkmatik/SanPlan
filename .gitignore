@@ -1,8 +1,8 @@
 # Custom ignores
 .idea
-fahrzeuge/static/fahrzeug_pics/
-fahrzeuge/migrations/
-veranstaltung/migrations/
+web/fahrzeuge/static/fahrzeug_pics/
+web/fahrzeuge/migrations/
+web/veranstaltung/migrations/
 
 ### Django ###
 *.log

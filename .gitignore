@@ -1,6 +1,4 @@
 HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -74,3 +72,6 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven
+
+## My gitignores
+sanplan-mariadb-data/

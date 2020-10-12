@@ -16,7 +16,7 @@ services:
             dockerfile: Dockerfile
         env_file:
             - ./web/web.dev.env
-        command: pipenv run python manage.py runserver 0.0.0.0:8000
+        command: python manage.py runserver 0.0.0.0:8000
         volumes:
             - ./web:/code
         ports:

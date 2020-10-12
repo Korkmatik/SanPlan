@@ -6,6 +6,10 @@ ADD . /code
 
 WORKDIR /code
 
-RUN pip install --upgrade pip && \
-    pip install pipenv && \
-    pipenv install
+RUN apk update && \
+    apk add --virtual build-deps gcc python3-dev musl-dev && \
+    apk add --no-cache mariadb-dev && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+RUN apk del build-deps

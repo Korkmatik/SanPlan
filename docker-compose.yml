@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  sanplan_database:
+    image: mariadb:latest
+    container_name: sanplan_database
+    restart: always
+    environment:
+      MYSQL_USER: sanplan-user
+      MYSQL_PASSWORD: sanplan-password
+      MYSQL_DATABASE: sanplan-database
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    ports:
+      - 3306:3306
+    volumes:
+      - ./sanplan-mariadb-data:/var/lib/mysql
+
+  sanplan:
+    build: .
+    image: sanplan
+    restart: always
+    depends_on:
+      - sanplan_database
+    ports:
+      - 8080:8080
+    environment:
+      DATABASE_HOSTNAME: sanplan_database
+      DATABASE_USERNAME: sanplan-user
+      DATABASE_PASSWORD: sanplan-password
+      DATABASE_DATABASE: sanplan-database
+      DATABASE_PORT: 3306

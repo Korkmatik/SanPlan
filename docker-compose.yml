@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+    db:
+        image: mariadb
+        environment: 
+            MYSQL_DATABASE: sanplan-database
+            MYSQL_USER: sanplan-user
+            MYSQL_PASSWORD: sanplan-password
+            MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+        ports:
+            - "3306:3306"
+    web:
+        build:
+            context: ./web/
+            dockerfile: Dockerfile
+        command: pipenv run python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./web:/code
+        ports:
+            - "8000:8000"
+        depends_on:
+            - db
+            

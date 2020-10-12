@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+<<<<<<< HEAD
   sanplan_database:
     image: mariadb:latest
     container_name: sanplan_database
@@ -29,3 +30,12 @@ services:
       DATABASE_PASSWORD: sanplan-password
       DATABASE_DATABASE: sanplan-database
       DATABASE_PORT: 3306
+=======
+    web:
+        build: .
+        command: python3 /code/manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./web:/code
+        ports:
+            - "8000:8000"
+>>>>>>> parent of d990153... Removed Django Project

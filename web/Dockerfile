@@ -8,7 +8,7 @@ WORKDIR /code
 
 RUN apk update && \
     apk add --virtual build-deps gcc python3-dev musl-dev && \
-    apk add --no-cache mariadb-dev && \
+    apk add --no-cache mariadb-dev jpeg-dev openjpeg-dev && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
 

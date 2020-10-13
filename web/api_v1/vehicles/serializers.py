@@ -6,4 +6,4 @@ from fahrzeuge.models import FahrzeugTyp
 class VehicleTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = FahrzeugTyp
-        fields = ('name')
+        fields = ('id', 'short', 'name')

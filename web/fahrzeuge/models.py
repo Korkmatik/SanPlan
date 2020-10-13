@@ -1,7 +1,16 @@
+import os
+
 from django.db import models
 
+
 def fahrzeug_images(instance, filename):
-    return 'fahrzeuge/static/fahrzeug_pics/{}'.format(filename)
+    return os.path.join('vehicle', str(instance.id), filename)
+
+
+class FahrzeugTyp(models.Model):
+
+    short = models.CharField(max_length=5)
+    name = models.CharField(max_length=30)
 
 
 class Fahrzeug(models.Model):
@@ -16,11 +25,12 @@ class Fahrzeug(models.Model):
         (IM_DIENST, 'Im Dienst'),
     ]
 
-    name = models.CharField(max_length=30, null=True)
+    typ = models.ForeignKey(FahrzeugTyp, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=30, blank=True, null=True)
     kennzeichen = models.CharField(max_length=15)
     funkrufname = models.CharField(max_length=30)
-    typ = models.CharField(max_length=10)
-    filename = models.CharField(max_length=30, blank=True, default="")
+    image = models.ImageField(upload_to=fahrzeug_images, blank=True, null=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=VERFUEGBAR)
 
     def get_name(self):
@@ -49,3 +59,4 @@ class Fahrzeug(models.Model):
 
     def __str__(self):
         return str(self.funkrufname)
+

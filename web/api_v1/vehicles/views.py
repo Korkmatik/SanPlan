@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import VehicleTypeSerializer
-from fahrzeuge.models import FahrzeugTyp
+from .serializers import VehicleTypeSerializer, VehicleSerializer
+from fahrzeuge.models import FahrzeugTyp, Fahrzeug
 
 
 class VehicleTypeViewSet(viewsets.ModelViewSet):
@@ -10,3 +10,10 @@ class VehicleTypeViewSet(viewsets.ModelViewSet):
 
     queryset = FahrzeugTyp.objects.all()
     serializer_class = VehicleTypeSerializer
+
+
+class VehicleViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    queryset = Fahrzeug.objects.all()
+    serializer_class = VehicleSerializer

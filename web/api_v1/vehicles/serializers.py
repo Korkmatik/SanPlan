@@ -15,7 +15,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Fahrzeug
         fields = (
-            'id', 'name', 'kennzeichen', 'funkrufname', 'image', 'status', 'typ'
+            'id', 'name', 'kennzeichen', 'funkrufname', 'image', 'status', 'typ', 'seats'
         )
 
     def create(self, validated_data):
@@ -33,6 +33,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
             funkrufname=validated_data['funkrufname'],
             image=validated_data['image'],
             status=validated_data['status'],
+            seats=validated_data['seats']
         )
 
     def update(self, instance, validated_data):
@@ -48,6 +49,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
         instance.kennzeichen = validated_data['kennzeichen']
         instance.funkrufname = validated_data['funkrufname']
         instance.status = validated_data['status']
+        instance.seats = validated_data['seats']
         instance.typ = vehicle_type
 
         if validated_data['image'] != None:

@@ -32,6 +32,7 @@ class Fahrzeug(models.Model):
     funkrufname = models.CharField(max_length=30)
     image = models.ImageField(upload_to=fahrzeug_images, blank=True, null=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=VERFUEGBAR)
+    seats = models.PositiveIntegerField()
 
     def get_name(self):
         return self.name

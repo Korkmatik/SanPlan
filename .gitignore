@@ -1,9 +1,3 @@
-# Custom ignores
-.idea
-web/fahrzeuge/static/fahrzeug_pics/
-web/fahrzeuge/migrations/
-web/veranstaltung/migrations/
-
 ### Django ###
 *.log
 *.pot
@@ -211,3 +205,10 @@ dmypy.json
 
 ## Custom ignores
 web/web.dev.env
+sanplan-mariadb-data/
+.idea
+web/fahrzeuge/static/fahrzeug_pics/
+web/fahrzeuge/migrations/
+!web/fahrzeuge/migrations/__init__.py
+web/veranstaltung/migrations/
+!web/veranstaltung/migrations/__init__.py

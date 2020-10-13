@@ -52,7 +52,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
         instance.seats = validated_data['seats']
         instance.typ = vehicle_type
 
-        if validated_data['image'] != None:
+        if validated_data['image'] is not None:
             instance.image = validated_data['image']
 
         instance.save()

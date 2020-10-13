@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Fahrzeug erstellen{% endblock %}
+
+{% block body %}
+
+<form method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="vehicle-name">Fahrzeugname (optional)</label>
+    <input type="text" class="form-control" id="vehicle-name" placeholder="Fahrzeugname ...">
+  </div>
+
+ <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="license-plate">Kennzeichen *</label>
+      <input type="text" class="form-control" id="license-plate" placeholder="Kennzeichen ..." required>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="radio-call-name">Funkrufname (optional)</label>
+      <input type="text" class="form-control" id="radio-call-name" placeholder="Funkrufname ...">
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="seats">Sitzplätze *</label>
+      <input type="number" class="form-control" id="seats" value="2" required>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="image">Bild (optional)</label>
+      <input type="file" class="form-control" id="image">
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="vehicle-type">Fahrzeugtyp *</label>
+        <select id="vehicle-type" class="form-control" required>
+            {% for type in vehicle_types %}
+                <option value="{{ type.get_short }}">
+                    {{ type.get_name }} ({{ type.get_short }})
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="state">Status *</label>
+        <select id="state" class="form-control" required>
+            {% for state in states %}
+                <option value="{{ state }}">
+                    {{ state }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button id="submit" type="submit" class="btn btn-success">Fahrzeug erstellen</button>
+</div>
+
+</form>
+
+{% endblock %}

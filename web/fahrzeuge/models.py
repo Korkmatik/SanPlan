@@ -9,8 +9,14 @@ def fahrzeug_images(instance, filename):
 
 class FahrzeugTyp(models.Model):
 
-    short = models.CharField(max_length=5)
+    short = models.CharField(max_length=5, unique=True)
     name = models.CharField(max_length=30)
+
+    def get_short(self):
+        return self.short
+
+    def get_name(self):
+        return self.name
 
 
 class Fahrzeug(models.Model):
@@ -29,7 +35,7 @@ class Fahrzeug(models.Model):
 
     name = models.CharField(max_length=30, blank=True, null=True)
     kennzeichen = models.CharField(max_length=15)
-    funkrufname = models.CharField(max_length=30)
+    funkrufname = models.CharField(max_length=30, null=True, blank=True)
     image = models.ImageField(upload_to=fahrzeug_images, blank=True, null=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=VERFUEGBAR)
     seats = models.PositiveIntegerField()

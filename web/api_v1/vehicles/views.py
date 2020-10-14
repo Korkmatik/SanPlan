@@ -13,7 +13,7 @@ class VehicleTypeViewSet(viewsets.ModelViewSet):
 
 
 class VehicleViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     queryset = Fahrzeug.objects.all()
     serializer_class = VehicleSerializer

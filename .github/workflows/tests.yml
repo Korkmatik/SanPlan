@@ -1,0 +1,25 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Automated Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        
+      - name: Building the containers
+        run: docker-compose up -d --build
+        
+      - name: Making migrations
+        run: docker-compose run web sh -c "python manage.py makemigrations && python manage.py migrate"
+        
+      - name: Running tests
+        run: docker-compose run web python manage.py test

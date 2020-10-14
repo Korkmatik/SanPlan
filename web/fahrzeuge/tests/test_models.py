@@ -8,12 +8,12 @@ from fahrzeuge.models import FahrzeugTyp, Fahrzeug
 class VehicleTypeTestCase(TestCase):
 
     @staticmethod
-    def createVehicleType() -> Tuple[FahrzeugTyp, Dict[str, str]]:
+    def createVehicleType(short='KTW', name='Krankentransportwagen') -> Tuple[FahrzeugTyp, Dict[str, str]]:
         data = {
-            'short': 'KTW',
-            'name': 'Krankentransportwagen'
+            'short': short,
+            'name': name
         }
-        return FahrzeugTyp(**data), data
+        return FahrzeugTyp.objects.create(**data), data
 
     def setUp(self) -> None:
         self.vehicle_type, self.data = self.createVehicleType()
@@ -45,7 +45,7 @@ class VehicleTestCase(TestCase):
             "seats": 3
         }
 
-        return Fahrzeug(**data), data
+        return Fahrzeug.objects.create(**data), data
 
     def setUp(self) -> None:
         self.vehicle, self.data = VehicleTestCase.createVehicle()
@@ -87,6 +87,7 @@ class VehicleTestCase(TestCase):
 
     def test_has_name_with_blank_name(self):
         self.vehicle.name = ""
+        self.vehicle.save()
 
         self.assertFalse(
             self.vehicle.has_name()
@@ -94,6 +95,7 @@ class VehicleTestCase(TestCase):
 
     def test_has_name_with_name_none(self):
         self.vehicle.name = None
+        self.vehicle.save()
 
         self.assertFalse(
             self.vehicle.has_name()
@@ -106,6 +108,7 @@ class VehicleTestCase(TestCase):
 
     def test_is_available_as_not_available(self):
         self.vehicle.status = Fahrzeug.NICHT_VERFUEGBAR
+        self.vehicle.save()
 
         self.assertFalse(
             self.vehicle.is_verfuegbar()

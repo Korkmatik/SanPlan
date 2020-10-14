@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Fahrzeug erstellen{% endblock %}
 
@@ -14,6 +15,7 @@
     <div class="form-group col-md-6">
       <label for="license-plate">Kennzeichen *</label>
       <input type="text" class="form-control" id="license-plate" placeholder="Kennzeichen ..." required>
+      <div class="invalid-feedback">Bitte Kennzeichen angeben!</div>
     </div>
     <div class="form-group col-md-6">
       <label for="radio-call-name">Funkrufname (optional)</label>
@@ -25,6 +27,7 @@
     <div class="form-group col-md-6">
       <label for="seats">Sitzplätze *</label>
       <input type="number" class="form-control" id="seats" value="2" required>
+      <div class="invalid-feedback">Sitzplätze dürfen nicht leer und auch nicht kleiner als eins sein!</div>
     </div>
     <div class="form-group col-md-6">
       <label for="image">Bild (optional)</label>
@@ -48,8 +51,8 @@
         <label for="state">Status *</label>
         <select id="state" class="form-control" required>
             {% for state in states %}
-                <option value="{{ state }}">
-                    {{ state }}
+                <option value="{{ state.0 }}">
+                    {{ state.1 }}
                 </option>
             {% endfor %}
         </select>
@@ -59,5 +62,11 @@
 </div>
 
 </form>
+
+{% endblock %}
+
+{% block body_end %}
+
+<script type="module" src="{% static 'js/vehicles/create.js' %}"></script>
 
 {% endblock %}

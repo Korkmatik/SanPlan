@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from fahrzeuge.controllers import VehicleController, VehicleTypeController
 from fahrzeuge.models import Fahrzeug
+from fahrzeuge.tests.test_models import VehicleTypeTestCase
 
 
 class VehicleControllerTestCase(TestCase):
@@ -12,3 +13,29 @@ class VehicleControllerTestCase(TestCase):
             Fahrzeug.STATUS_CHOICES
         )
 
+
+class VehicleTypeControllerTestCase(TestCase):
+
+    def test_get_all_vehicle_types_with_no(self):
+        self.assertEqual(
+            len(VehicleTypeController.get_all_vehicle_types()),
+            0
+        )
+
+    def test_get_all_vehicle_types_with_one(self):
+        VehicleTypeTestCase.createVehicleType()
+
+        self.assertEqual(
+            len(VehicleTypeController.get_all_vehicle_types()),
+            1
+        )
+
+    def test_get_all_vehicle_types_with_multiple(self):
+        num = 3
+        for i in range(3):
+            VehicleTypeTestCase.createVehicleType(short=str(i), name=str(i))
+
+        self.assertEqual(
+            len(VehicleTypeController.get_all_vehicle_types()),
+            num
+        )

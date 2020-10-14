@@ -59,11 +59,11 @@ class Fahrzeug(models.Model):
         return self.status
 
     def has_name(self):
-        return self.name
+        return (self.name is not None) and (self.name != "")
 
     def is_verfuegbar(self):
         return self.status == self.VERFUEGBAR
 
     def __str__(self):
-        return str(self.funkrufname)
+        return str(self.kennzeichen)
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Fahrzeug
 from .controllers import VehicleController, VehicleTypeController
@@ -15,7 +16,7 @@ class IndexView(View):
             'fahrzeuge/index.html',
             context={
                 'fahrzeuge': fahrzeuge,
-                'fahrzeugeActive': True,
+                'vehicleActive': True,
             }
         )
 
@@ -26,6 +27,7 @@ class CreateView(View):
         context = {
             'vehicle_types': VehicleTypeController.get_all_vehicle_types(),
             'states': VehicleController.get_vehicle_states(),
+            'vehicleActive': True,
         }
 
         return render(

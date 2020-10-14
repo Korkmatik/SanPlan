@@ -212,3 +212,4 @@ web/fahrzeuge/migrations/
 !web/fahrzeuge/migrations/__init__.py
 web/veranstaltung/migrations/
 !web/veranstaltung/migrations/__init__.py
+mariadb_data/

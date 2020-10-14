@@ -5,9 +5,7 @@ services:
         image: mariadb
         environment: 
             MYSQL_DATABASE: sanplan-database
-            MYSQL_USER: sanplan-user
-            MYSQL_PASSWORD: sanplan-password
-            MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+            MYSQL_ROOT_PASSWORD: sanplan-password
         ports:
             - "3306:3306"
         volumes:

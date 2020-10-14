@@ -6,8 +6,7 @@ class VehicleController:
 
     @staticmethod
     def get_vehicle_states():
-        states = [state[1] for state in Fahrzeug.STATUS_CHOICES]
-        return states
+        return Fahrzeug.STATUS_CHOICES
 
 
 class VehicleTypeController:

@@ -14,10 +14,10 @@ class Adresse(models.Model):
         return self.name
 
     def get_strasse(self):
-        return str(self.strasse) + " " + str(self.strassenNummer)
+        return str(self.strasse)
 
     def get_ort(self):
-        return str(self.plz) + " " + str(self.ort)
+        return str(self.ort)
 
     def has_name(self):
         return (self.name != None) and (self.name != "")

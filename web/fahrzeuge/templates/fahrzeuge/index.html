@@ -5,7 +5,7 @@
     {% for fahrzeug in fahrzeuge %}
     <div class="card ml-2 mt-4 mb-2" style="width: 18rem;">
         {% load static %}
-      <img class="card-img-top" src="{%  static fahrzeug.get_file_path %}" alt="Foto des Einsatzfahrzeuges">
+      <img class="card-img-top" src="{%  static fahrzeug.get_image_path %}" alt="Foto des Einsatzfahrzeuges">
       <div class="card-body">
           {% if fahrzeug.has_name %}
             <h5 class="card-title">{{ fahrzeug.get_name }}</h5>

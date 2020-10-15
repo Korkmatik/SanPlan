@@ -52,8 +52,8 @@ class Fahrzeug(models.Model):
     def get_typ(self):
         return self.typ
 
-    def get_file_path(self):
-        return 'fahrzeug_pics/' + str(self.filename)
+    def get_image_path(self):
+        return self.image.image_url.url
 
     def get_status(self):
         return self.status

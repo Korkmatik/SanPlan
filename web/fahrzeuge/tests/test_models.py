@@ -1,8 +1,11 @@
+import os
+
 from typing import Tuple, Dict, Any
+from unittest import mock
 
 from django.test import TestCase
 
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug
+from fahrzeuge.models import FahrzeugTyp, Fahrzeug, fahrzeug_images
 
 
 class VehicleTypeTestCase(TestCase):
@@ -120,3 +123,23 @@ class VehicleTestCase(TestCase):
             self.data['kennzeichen']
         )
 
+    def test_get_image_path(self):
+        image_url = 'foo'
+        self.vehicle.image = mock.MagicMock()
+        self.vehicle.image.image_url = mock.MagicMock()
+        self.vehicle.image.image_url.url = image_url
+
+        self.assertEqual(
+            self.vehicle.get_image_path(),
+            image_url
+        )
+
+    @mock.patch('fahrzeuge.models.os.path.join')
+    def test_vehicle_images_path(self, mock_join):
+        filename = 'foo'
+        instance = mock.MagicMock()
+        instance.id = 'foobar'
+
+        ret = fahrzeug_images(instance, filename)
+
+        mock_join.assert_called_with('vehicle', instance.id, filename)

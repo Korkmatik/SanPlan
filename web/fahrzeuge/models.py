@@ -9,7 +9,7 @@ def fahrzeug_images(instance, filename):
 
 class FahrzeugTyp(models.Model):
 
-    short = models.CharField(max_length=5, unique=True)
+    short = models.CharField(max_length=5)
     name = models.CharField(max_length=30)
 
     def get_short(self):

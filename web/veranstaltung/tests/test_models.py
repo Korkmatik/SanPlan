@@ -80,7 +80,7 @@ class EventTestCase(TestCase):
             'ansprechPartner': 'John Doe'
         }
 
-        return Veranstaltung(**data), data
+        return Veranstaltung.objects.create(**data), data
 
     def setUp(self) -> None:
         self.event, self.data = EventTestCase.create_event()

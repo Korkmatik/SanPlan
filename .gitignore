@@ -213,3 +213,5 @@ web/fahrzeuge/migrations/
 web/veranstaltung/migrations/
 !web/veranstaltung/migrations/__init__.py
 mariadb_data/
+web/unit/migrations/*.py
+!web/unit/migrations/__init__.py

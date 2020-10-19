@@ -1,8 +1,10 @@
 from typing import Tuple, Dict, Any
+import datetime
 
 from django.test import TestCase
+from django.urls import reverse
 
-from veranstaltung.models import Adresse
+from veranstaltung.models import Adresse, Veranstaltung
 
 
 class AddressTestCase(TestCase):
@@ -62,3 +64,60 @@ class AddressTestCase(TestCase):
 
     def test_to_str(self):
         self.assertEqual(str(self.Address), self.data['name'])
+
+
+class EventTestCase(TestCase):
+
+    @staticmethod
+    def create_event() -> Tuple[Veranstaltung, Dict[str, Any]]:
+        addresse = AddressTestCase.create_address()[0]
+        addresse.save()
+        data = {
+            'address': addresse,
+            'vonDateTime': datetime.datetime(2020, 5, 7),
+            'bisDateTime': datetime.datetime(2020, 5, 8),
+            'titel': 'Foobar',
+            'ansprechPartner': 'John Doe'
+        }
+
+        return Veranstaltung(**data), data
+
+    def setUp(self) -> None:
+        self.event, self.data = EventTestCase.create_event()
+
+    def test_get_titel(self):
+        self.assertEqual(self.event.get_titel(), self.data['titel'])
+
+    def test_get_von_date_time(self):
+        self.assertEqual(self.event.get_von_date_time(), self.data['vonDateTime'])
+
+    def test_get_bis_date_time(self):
+        self.assertEqual(self.event.get_bis_date_time(), self.data['bisDateTime'])
+
+    def test_get_date(self):
+        self.assertEqual(self.event.get_date(), self.data['vonDateTime'].strftime("%d. %b %Y"))
+
+    def test_get_adresse(self):
+        self.assertEqual(self.event.get_adresse(), self.data['address'])
+
+    def test_get_edit_url(self):
+        self.event.save()
+        self.assertEqual(self.event.get_edit_url(), reverse('veranstaltung:detail', args=[str(self.event.id),]))
+
+    def test_hat_evt_einheiten_no_evt(self):
+        self.assertFalse(self.event.hat_evt_einheiten())
+
+    def test_has_ansprechpartner(self):
+        self.assertTrue(self.event.has_ansprechpartner())
+
+    def test_get_evts_no_evt(self):
+        self.assertEqual(len(self.event.get_evts()), 0)
+
+    def test_get_anzahl_evts(self):
+        self.assertEqual(self.event.get_anzahl_evts(), 0)
+
+    def test_get_ansprechpartner(self):
+        self.assertEqual(self.event.get_ansprechpartner(), self.data['ansprechPartner'])
+
+    def test_to_str(self):
+        self.assertEqual(str(self.event), self.data['titel'])

@@ -10,7 +10,7 @@ class IndexView(View):
         return render(request,
                       'veranstaltung/index.html',
                       {
-                          'veranstaltungen': VeranstaltungController.get_veranstaltung_by_username('fahri'),
+                          'veranstaltungen': VeranstaltungController.get_veranstaltungen(),
                           'home': True,
                       })
 
@@ -23,8 +23,8 @@ class VeranstaltungsView(View):
                       'veranstaltung/detail.html',
                       {
                           'veranstaltung': veranstaltung,
-                          'von': veranstaltung.get_von_deutsch(),
-                          'bis': veranstaltung.get_bis_deutsch(),
+                          'von': veranstaltung.get_von_date_time(),
+                          'bis': veranstaltung.get_bis_date_time(),
                           'adresse': veranstaltung.get_adresse(),
                           'evts': veranstaltung.get_evts(),
                       })

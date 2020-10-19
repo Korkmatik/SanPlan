@@ -14,10 +14,10 @@ class Adresse(models.Model):
         return self.name
 
     def get_strasse(self):
-        return str(self.strasse) + " " + str(self.strassenNummer)
+        return str(self.strasse)
 
     def get_ort(self):
-        return str(self.plz) + " " + str(self.ort)
+        return str(self.ort)
 
     def has_name(self):
         return (self.name != None) and (self.name != "")
@@ -33,26 +33,12 @@ class Adresse(models.Model):
 
 
 class Veranstaltung(models.Model):
-    adresse = models.ForeignKey(Adresse, null=True, on_delete=models.SET_NULL)
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    address = models.ForeignKey(Adresse, null=True, on_delete=models.SET_NULL)
 
     vonDateTime = models.DateTimeField()
     bisDateTime = models.DateTimeField()
     titel = models.CharField(max_length=80)
     ansprechPartner = models.CharField(max_length=80, null=True, blank=True)
-
-    def get_von_deutsch(self):
-        return self.__to_german(self.vonDateTime.strftime("%a, %d. %b %Y %H:%M"))
-
-    def get_bis_deutsch(self):
-        return self.__to_german(self.bisDateTime.strftime("%a, %d. %b %Y %H:%M"))
-
-    def __to_german(self, string):
-        return string\
-            .replace("Tue", "Dienstag")\
-            .replace("Wed", "Mittwoch")\
-            .replace("Thu", "Donnerstag")\
-            .replace("Sep", "September")
 
     def get_titel(self):
         return self.titel
@@ -64,22 +50,22 @@ class Veranstaltung(models.Model):
         return self.bisDateTime
 
     def get_date(self):
-        return self.__to_german(self.vonDateTime.strftime("%d. %b %Y"))
+        return self.vonDateTime.strftime("%d. %b %Y")
 
     def get_adresse(self):
-        return self.adresse
+        return self.address
 
-    def get_absolute_url(self):
-        return reverse('veranstaltung:detail', args=[str(self.id)])
+    def get_edit_url(self):
+        return reverse('veranstaltung:detail', args=[str(self.id),])
 
-    def hat_einheiten(self):
+    def hat_evt_einheiten(self):
         return (self.get_anzahl_evts() > 0)
 
     def has_ansprechpartner(self):
         return self.ansprechPartner != None and self.ansprechPartner != ""
 
     def get_evts(self):
-        return EVTEinheit.objects.filter(veranstaltung_id=self.id)
+        return EVTEinheit.objects.filter(veranstaltung=self)
 
     def get_anzahl_evts(self):
         return self.get_evts().count()

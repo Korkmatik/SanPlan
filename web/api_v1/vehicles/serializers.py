@@ -18,22 +18,19 @@ class VehicleTypeSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class VehicleSerializer(serializers.HyperlinkedModelSerializer):
-    typ = VehicleTypeSerializer(read_only=True)
-
-    vehicle_type_short = serializers.CharField(max_length=5, write_only=True)
-    vehicle_type_name = serializers.CharField(max_length=30, write_only=True)
+    typ = VehicleTypeSerializer()
 
     class Meta:
         model = Fahrzeug
         fields = (
-            'id', 'name', 'kennzeichen', 'funkrufname', 'image', 'status', 'typ', 'seats',
-            'vehicle_type_short', 'vehicle_type_name'
+            'id', 'name', 'kennzeichen', 'funkrufname', 'image', 'status', 'seats', 'typ'
         )
 
     def create(self, validated_data):
         # Create or get the vehicle type
         vehicle_type = FahrzeugTyp.objects.get_or_create(
-            short=validated_data['vehicle_type_short'],
+            short=validated_data['typ']['short'],
+            name=validated_data['typ']['name'],
         )[0]
 
         # Creating and returning the vehicle
@@ -50,10 +47,9 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
     def update(self, instance, validated_data):
         # Updating the vehicle type
         vehicle_type_data = validated_data.pop('typ')
-        vehicle_type = instance.typ
-        vehicle_type.name = vehicle_type_data['name']
-        vehicle_type.short = vehicle_type_data['short']
-        vehicle_type.save()
+        vehicle_type = FahrzeugTyp.objects.get(
+            short=vehicle_type_data['short']
+        )
 
         # Updating the vehicle
         instance.name = validated_data['name']
@@ -62,9 +58,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
         instance.status = validated_data['status']
         instance.seats = validated_data['seats']
         instance.typ = vehicle_type
-
-        if validated_data['image'] is not None:
-            instance.image = validated_data['image']
+        instance.image = validated_data['image']
 
         instance.save()
         return instance

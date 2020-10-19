@@ -1,24 +1,15 @@
 from django.test import TestCase
-from rest_framework.test import APIClient
 from rest_framework import status
-from django.contrib.auth import get_user_model
 
-from api_v1.vehicles.views import VehicleTypeViewSet
-from fahrzeuge.tests.test_models import VehicleTypeTestCase
-from fahrzeuge.models import FahrzeugTyp
+from api_v1.tests.ViewSetTestCase import ViewSetTestCase
+from fahrzeuge.tests.test_models import VehicleTypeTestCase, VehicleTestCase
+from fahrzeuge.models import FahrzeugTyp, Fahrzeug
 
 
-class VehicleTypeViewSetTestCase(TestCase):
+class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
 
     def setUp(self) -> None:
-        self.url = '/api/v1/vehiclestype/'
-
-        self.client = APIClient()
-        user_model = get_user_model()
-
-        self.user = user_model.objects.create(username='foo', password='foo')
-        self.user.save()
-        self.client.force_login(user=self.user)
+        self.set_up('vehiclestype')
 
         self.vehicle_type = VehicleTypeTestCase.createVehicleType()[0]
         self.vehicle_type.save()
@@ -76,3 +67,57 @@ class VehicleTypeViewSetTestCase(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(FahrzeugTyp.objects.count(), 0)
+
+
+class VehicleSerializerTestCase(TestCase, ViewSetTestCase):
+
+    def setUp(self) -> None:
+        self.set_up('vehicles')
+
+        self.vehicle = VehicleTestCase.createVehicle()[0]
+        self.vehicle.save()
+
+    def test_get(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['id'], self.vehicle.id)
+
+    def test_post(self):
+        data = {
+            'name': 'Foo',
+            'kennzeichen': 'fo ds 3',
+            'funkrufname': 'fo 72/1',
+            'status': 'VB',
+            'seats': 3,
+            'image': None,
+            'typ': {
+                'short': 'FOO',
+                'name': 'FOOBAR'
+            }
+        }
+        response = self.client.post(self.url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(FahrzeugTyp.objects.count(), 2)
+        self.assertEqual(Fahrzeug.objects.count(), 2)
+
+    def test_update(self):
+        data = {
+            'id': self.vehicle.id,
+            'name': 'Foo',
+            'kennzeichen': 'fo ds 3',
+            'funkrufname': 'fo 72/1',
+            'status': 'VB',
+            'seats': 3,
+            'image': None,
+            'typ': {
+                'id': self.vehicle.typ.id,
+                'short': self.vehicle.typ.short,
+                'name': self.vehicle.typ.name,
+            }
+        }
+        response = self.client.put(self.url + str(self.vehicle.id) + "/", data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -4,36 +4,36 @@ from veranstaltung.models import Veranstaltung
 
 
 class EVTUnit(models.Model):
-    veranstaltung = models.ForeignKey(Veranstaltung, on_delete=models.CASCADE)
+    event = models.ForeignKey(Veranstaltung, on_delete=models.CASCADE)
 
-    truppFuehrer = models.CharField(max_length=80)
-    personal = models.CharField(max_length=80)
-    praktikant = models.CharField(max_length=80, blank=True, null=True)
+    unit_leader = models.CharField(max_length=80)
+    unit_second = models.CharField(max_length=80)
+    trainee = models.CharField(max_length=80, blank=True, null=True)
 
-    standort = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
 
-    zusatzinformation = models.CharField(max_length=300, blank=True, default="")
+    additional_information = models.CharField(max_length=300, blank=True, default="")
 
-    def get_trupp_fuhrer(self):
-        return self.truppFuehrer
+    def get_leader(self):
+        return self.unit_leader
 
-    def get_personal(self):
-        return self.personal
+    def get_second(self):
+        return self.unit_second
 
-    def get_praktikant(self):
-        return self.praktikant
+    def get_trainee(self):
+        return self.trainee
 
-    def get_standort(self):
-        return self.standort
+    def get_location(self):
+        return self.location
 
-    def get_zusatzinformation(self):
-        return self.zusatzinformation
+    def get_additional_information(self):
+        return self.additional_information
 
-    def has_zusatzinformation(self):
-        return self.zusatzinformation != ""
-
-    def has_praktikant(self):
-        return self.praktikant != None
+    def has_trainee(self):
+        return self.trainee is not None
 
     def __str__(self):
-        return self.truppFuehrer
+        to_str = f"{self.unit_leader} {self.unit_second}"
+        if self.has_trainee():
+            to_str += f" {self.trainee}"
+        return to_str

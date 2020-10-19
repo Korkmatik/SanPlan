@@ -4,10 +4,6 @@ from .models import Veranstaltung
 class VeranstaltungController():
 
     @staticmethod
-    def get_veranstaltung_by_username(username):
-        return Veranstaltung.objects.filter(users__username=username).all()
-
-    @staticmethod
     def get_veranstaltung_by_id(id):
         return Veranstaltung.objects.get(id=id)
 

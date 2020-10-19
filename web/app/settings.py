@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'fahrzeuge.apps.FahrzeugeConfig',
     'veranstaltung.apps.VeranstaltungConfig',
+    'unit.apps.UnitConfig',
 
     'rest_framework',
 

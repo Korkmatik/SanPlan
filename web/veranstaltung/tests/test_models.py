@@ -80,7 +80,7 @@ class EventTestCase(TestCase):
             'ansprechPartner': 'John Doe'
         }
 
-        return Veranstaltung(**data), data
+        return Veranstaltung.objects.create(**data), data
 
     def setUp(self) -> None:
         self.event, self.data = EventTestCase.create_event()
@@ -104,17 +104,8 @@ class EventTestCase(TestCase):
         self.event.save()
         self.assertEqual(self.event.get_edit_url(), reverse('veranstaltung:detail', args=[str(self.event.id),]))
 
-    def test_hat_evt_einheiten_no_evt(self):
-        self.assertFalse(self.event.hat_evt_einheiten())
-
     def test_has_ansprechpartner(self):
         self.assertTrue(self.event.has_ansprechpartner())
-
-    def test_get_evts_no_evt(self):
-        self.assertEqual(len(self.event.get_evts()), 0)
-
-    def test_get_anzahl_evts(self):
-        self.assertEqual(self.event.get_anzahl_evts(), 0)
 
     def test_get_ansprechpartner(self):
         self.assertEqual(self.event.get_ansprechpartner(), self.data['ansprechPartner'])

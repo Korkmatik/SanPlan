@@ -26,6 +26,5 @@ class VeranstaltungsView(View):
                           'von': veranstaltung.get_von_date_time(),
                           'bis': veranstaltung.get_bis_date_time(),
                           'adresse': veranstaltung.get_adresse(),
-                          'evts': veranstaltung.get_evts(),
                       })
 

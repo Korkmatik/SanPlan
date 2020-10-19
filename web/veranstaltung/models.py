@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -58,24 +57,14 @@ class Veranstaltung(models.Model):
     def get_edit_url(self):
         return reverse('veranstaltung:detail', args=[str(self.id),])
 
-    def hat_evt_einheiten(self):
-        return (self.get_anzahl_evts() > 0)
-
     def has_ansprechpartner(self):
         return self.ansprechPartner != None and self.ansprechPartner != ""
-
-    def get_evts(self):
-        return EVTEinheit.objects.filter(veranstaltung=self)
-
-    def get_anzahl_evts(self):
-        return self.get_evts().count()
 
     def get_ansprechpartner(self):
         return self.ansprechPartner
 
     def __str__(self):
         return self.titel
-
     
 class Qualifikation(models.Model):
     titel = models.CharField(max_length=20)
@@ -83,40 +72,4 @@ class Qualifikation(models.Model):
 
     def __str__(self):
         return self.titel
-
-
-class EVTEinheit(models.Model):
-    veranstaltung = models.ForeignKey(Veranstaltung, on_delete=models.CASCADE)
-
-    truppFuehrer = models.CharField(max_length=80)
-    personal = models.CharField(max_length=80)
-    praktikant = models.CharField(max_length=80, blank=True, null=True)
-
-    standort = models.CharField(max_length=200)
-
-    zusatzinformation = models.CharField(max_length=300, blank=True, default="")
-
-    def get_trupp_fuhrer(self):
-        return self.truppFuehrer
-
-    def get_personal(self):
-        return self.personal
-
-    def get_praktikant(self):
-        return self.praktikant
-
-    def get_standort(self):
-        return self.standort
-
-    def get_zusatzinformation(self):
-        return self.zusatzinformation
-
-    def has_zusatzinformation(self):
-        return self.zusatzinformation != ""
-
-    def has_praktikant(self):
-        return self.praktikant != None
-
-    def __str__(self):
-        return self.truppFuehrer
 

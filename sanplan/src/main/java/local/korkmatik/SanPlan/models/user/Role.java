@@ -14,6 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 public class Role {
 
+    public enum Roles {
+        ADMIN,
+        USER
+    }
+
     @Id
     private String id;
 

@@ -1,5 +1,7 @@
 package local.korkmatik.SanPlan;
 
+import local.korkmatik.SanPlan.initialization.RoleInitializer;
+import local.korkmatik.SanPlan.initialization.UserInitializer;
 import local.korkmatik.SanPlan.models.user.Role;
 import local.korkmatik.SanPlan.models.user.User;
 import local.korkmatik.SanPlan.repositories.user.RoleRepository;
@@ -21,34 +23,14 @@ public class SanPlanApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	CommandLineRunner init(RoleInitializer roleInitializer, UserInitializer userInitializer) {
 		return args -> {
-			Role adminRole = createRoleIfNotExists(roleRepository, "ADMIN");
-			createRoleIfNotExists(roleRepository, "USER");
+			Role adminRole = roleInitializer.createAdminRoleIfNotExists();
+			roleInitializer.createUserRoleIfNotExists();
 
-			List<User> adminUsers = userRepository.findByRolesContains(adminRole);
-			System.out.println(adminUsers);
-			if (adminUsers.isEmpty()) {
-				User adminUser = new User();
-				adminUser.setFirstName("Admin");
-				adminUser.setLastName("Admin");
-				adminUser.setRoles(Set.of(adminRole));
-				adminUser.setEmail("admin@localhost");
-				adminUser.setEnabled(true);
-				adminUser.setPassword(passwordEncoder.encode("admin"));
-				userRepository.save(adminUser);
-			}
+			userInitializer.createDummyAdminUser(adminRole);
 		};
 	}
 
-	private Role createRoleIfNotExists(RoleRepository roleRepository, String admin) {
-		Role role = roleRepository.findByRole(admin);
-		if (role == null) {
-			Role newRole = new Role();
-			newRole.setRole(admin);
-			roleRepository.save(newRole);
-		}
 
-		return role;
-	}
 }

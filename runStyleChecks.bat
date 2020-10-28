@@ -1,2 +1,1 @@
-cd web/
-flake8 .
+docker-compose run web sh -c "flake8 ."

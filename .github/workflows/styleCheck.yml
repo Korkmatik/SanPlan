@@ -17,4 +17,4 @@ jobs:
         run: pip install flake8
         
       - name: Checking coding style
-        run: cd web/ && flake8 .
+        run: cd web/ && python -m flake8 .

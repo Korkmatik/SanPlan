@@ -3,11 +3,11 @@ import os
 from django.db import models
 
 
-def fahrzeug_images(instance, filename):
+def vehicle_images(instance, filename):
     return os.path.join('vehicle', str(instance.id), filename)
 
 
-class FahrzeugTyp(models.Model):
+class VehicleType(models.Model):
 
     short = models.CharField(max_length=5)
     name = models.CharField(max_length=30)
@@ -31,12 +31,12 @@ class Fahrzeug(models.Model):
         (IM_DIENST, 'Im Dienst'),
     ]
 
-    typ = models.ForeignKey(FahrzeugTyp, on_delete=models.CASCADE)
+    typ = models.ForeignKey(VehicleType, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=30, blank=True, null=True)
     kennzeichen = models.CharField(max_length=15)
     funkrufname = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to=fahrzeug_images, blank=True, null=True)
+    image = models.ImageField(upload_to=vehicle_images, blank=True, null=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=VERFUEGBAR)
     seats = models.PositiveIntegerField()
 

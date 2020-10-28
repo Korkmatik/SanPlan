@@ -3,7 +3,7 @@ from rest_framework import status
 
 from api_v1.tests.ViewSetTestCase import ViewSetTestCase
 from vehicles.tests.test_models import VehicleTypeTestCase, VehicleTestCase
-from vehicles.models import FahrzeugTyp, Fahrzeug
+from vehicles.models import VehicleType, Fahrzeug
 
 
 class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
@@ -35,8 +35,8 @@ class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
         response = self.client.post(self.url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(FahrzeugTyp.objects.count(), 2)
-        self.assertIsNotNone(FahrzeugTyp.objects.get(name=data['name'], short=data['short']))
+        self.assertEqual(VehicleType.objects.count(), 2)
+        self.assertIsNotNone(VehicleType.objects.get(name=data['name'], short=data['short']))
 
     def test_update_name(self):
         data = {
@@ -58,15 +58,15 @@ class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
         response = self.client.put(self.url + str(self.vehicle_type.id) + "/", data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(FahrzeugTyp.objects.count(), 1)
-        FahrzeugTyp.objects.get(id=self.vehicle_type.id)
+        self.assertEqual(VehicleType.objects.count(), 1)
+        VehicleType.objects.get(id=self.vehicle_type.id)
         self.assertEqual(response.data, data)
 
     def test_delete(self):
         response = self.client.delete(self.url + str(self.vehicle_type.id) + "/")
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(FahrzeugTyp.objects.count(), 0)
+        self.assertEqual(VehicleType.objects.count(), 0)
 
 
 class VehicleSerializerTestCase(TestCase, ViewSetTestCase):
@@ -100,7 +100,7 @@ class VehicleSerializerTestCase(TestCase, ViewSetTestCase):
         response = self.client.post(self.url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(FahrzeugTyp.objects.count(), 1)
+        self.assertEqual(VehicleType.objects.count(), 1)
         self.assertEqual(Fahrzeug.objects.count(), 2)
 
     def test_update(self):

@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from vehicles.models import FahrzeugTyp, Fahrzeug
+from vehicles.models import VehicleType, Fahrzeug
 
 
 class VehicleTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = FahrzeugTyp
+        model = VehicleType
         fields = ('id', 'short', 'name')
 
     def create(self, validated_data):
-        vehicleType = FahrzeugTyp.objects.get_or_create(
+        vehicleType = VehicleType.objects.get_or_create(
             name=validated_data['name'],
             short=validated_data['short']
         )[0]
@@ -26,7 +26,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         # Create or get the vehicle type
-        vehicle_type = FahrzeugTyp.objects.get(short=validated_data['typ']['short'])
+        vehicle_type = VehicleType.objects.get(short=validated_data['typ']['short'])
 
         # Creating and returning the vehicle
         return Fahrzeug.objects.create(
@@ -42,7 +42,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
     def update(self, instance, validated_data):
         # Updating the vehicle type
         vehicle_type_data = validated_data.pop('typ')
-        vehicle_type = FahrzeugTyp.objects.get(
+        vehicle_type = VehicleType.objects.get(
             short=vehicle_type_data['short']
         )
 

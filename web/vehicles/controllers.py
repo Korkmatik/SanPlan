@@ -1,5 +1,5 @@
 
-from .models import Fahrzeug, FahrzeugTyp
+from .models import Fahrzeug, VehicleType
 
 
 class VehicleController:
@@ -13,4 +13,4 @@ class VehicleTypeController:
 
     @staticmethod
     def get_all_vehicle_types():
-        return FahrzeugTyp.objects.all()
+        return VehicleType.objects.all()

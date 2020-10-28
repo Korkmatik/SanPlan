@@ -3,18 +3,18 @@ from unittest import mock
 
 from django.test import TestCase
 
-from vehicles.models import FahrzeugTyp, Fahrzeug, fahrzeug_images
+from vehicles.models import VehicleType, Fahrzeug, vehicle_images
 
 
 class VehicleTypeTestCase(TestCase):
 
     @staticmethod
-    def createVehicleType(short='KTW', name='Krankentransportwagen') -> Tuple[FahrzeugTyp, Dict[str, str]]:
+    def createVehicleType(short='KTW', name='Krankentransportwagen') -> Tuple[VehicleType, Dict[str, str]]:
         data = {
             'short': short,
             'name': name
         }
-        return FahrzeugTyp.objects.create(**data), data
+        return VehicleType.objects.create(**data), data
 
     def setUp(self) -> None:
         self.vehicle_type, self.data = self.createVehicleType()
@@ -139,7 +139,7 @@ class VehicleTestCase(TestCase):
         instance = mock.MagicMock()
         instance.id = 'foobar'
 
-        ret = fahrzeug_images(instance, filename)
+        ret = vehicle_images(instance, filename)
 
         mock_join.assert_called_with('vehicle', instance.id, filename)
         self.assertEqual(ret, 'f')

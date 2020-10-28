@@ -2,8 +2,8 @@ from django.test import TestCase
 from rest_framework import status
 
 from api_v1.tests.ViewSetTestCase import ViewSetTestCase
-from fahrzeuge.tests.test_models import VehicleTypeTestCase, VehicleTestCase
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug
+from vehicles.tests.test_models import VehicleTypeTestCase, VehicleTestCase
+from vehicles.models import FahrzeugTyp, Fahrzeug
 
 
 class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):

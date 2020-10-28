@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
 from .serializers import VehicleTypeSerializer, VehicleSerializer
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug
+from vehicles.models import FahrzeugTyp, Fahrzeug
 
 
 class VehicleTypeViewSet(viewsets.ModelViewSet):

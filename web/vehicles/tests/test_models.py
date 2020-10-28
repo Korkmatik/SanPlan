@@ -3,7 +3,7 @@ from unittest import mock
 
 from django.test import TestCase
 
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug, fahrzeug_images
+from vehicles.models import FahrzeugTyp, Fahrzeug, fahrzeug_images
 
 
 class VehicleTypeTestCase(TestCase):
@@ -132,7 +132,7 @@ class VehicleTestCase(TestCase):
             image_url
         )
 
-    @mock.patch('fahrzeuge.models.os.path.join')
+    @mock.patch('vehicles.models.os.path.join')
     def test_vehicle_images_path(self, mock_join):
         mock_join.side_effect = 'f'
         filename = 'foo'

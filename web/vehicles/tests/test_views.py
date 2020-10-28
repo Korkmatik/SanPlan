@@ -1,8 +1,8 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from fahrzeuge.models import Fahrzeug
-from fahrzeuge.tests.test_models import VehicleTestCase, VehicleTypeTestCase
+from vehicles.models import Fahrzeug
+from vehicles.tests.test_models import VehicleTestCase, VehicleTypeTestCase
 
 
 def get_template_names(response):
@@ -13,7 +13,7 @@ class IndexViewTestCase(TestCase):
 
     def setUp(self) -> None:
         self.client = Client()
-        self.url = reverse('fahrzeuge:index')
+        self.url = reverse('vehicles:index')
 
     def get_request(self):
         return self.client.get(self.url)
@@ -22,23 +22,23 @@ class IndexViewTestCase(TestCase):
         response = self.get_request()
         template_names = get_template_names(response)
 
-        self.assertEqual(len(response.context['fahrzeuge']), 0)
+        self.assertEqual(len(response.context['vehicles']), 0)
         self.assertTrue(response.context['vehicleActive'])
-        self.assertTrue('fahrzeuge/index.html' in template_names)
+        self.assertTrue('vehicles/index.html' in template_names)
 
     def test_get_with_vehicles(self):
         VehicleTestCase.createVehicle()[0].save()
 
         response = self.get_request()
 
-        self.assertEqual(len(response.context['fahrzeuge']), 1)
+        self.assertEqual(len(response.context['vehicles']), 1)
 
 
 class CreateViewTestCase(TestCase):
 
     def setUp(self) -> None:
         self.client = Client()
-        self.url = reverse('fahrzeuge:create')
+        self.url = reverse('vehicles:create')
 
     def get_request(self):
         return self.client.get(self.url)
@@ -47,7 +47,7 @@ class CreateViewTestCase(TestCase):
         response = self.get_request()
 
         self.assertTrue(response.context['vehicleActive'])
-        self.assertTrue('fahrzeuge/create.html' in get_template_names(response))
+        self.assertTrue('vehicles/create.html' in get_template_names(response))
         self.assertEqual(len(response.context['states']), len(Fahrzeug.STATUS_CHOICES))
         self.assertEqual(len(response.context['vehicle_types']), 0)
 

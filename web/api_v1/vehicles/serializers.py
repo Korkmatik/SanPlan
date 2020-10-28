@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug
+from vehicles.models import FahrzeugTyp, Fahrzeug
 
 
 class VehicleTypeSerializer(serializers.HyperlinkedModelSerializer):

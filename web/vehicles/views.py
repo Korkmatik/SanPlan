@@ -12,9 +12,9 @@ class IndexView(View):
 
         return render(
             request,
-            'fahrzeuge/index.html',
+            'vehicles/index.html',
             context={
-                'fahrzeuge': fahrzeuge,
+                'vehicles': fahrzeuge,
                 'vehicleActive': True,
             }
         )
@@ -31,6 +31,6 @@ class CreateView(View):
 
         return render(
             request,
-            'fahrzeuge/create.html',
+            'vehicles/create.html',
             context
         )

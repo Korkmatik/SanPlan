@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'fahrzeuge.apps.FahrzeugeConfig',
+    'vehicles.apps.VehicleConfig',
     'veranstaltung.apps.VeranstaltungConfig',
     'unit.apps.UnitConfig',
     'staff.apps.StaffConfig',

@@ -74,7 +74,7 @@ class VehicleSerializerTestCase(TestCase, ViewSetTestCase):
     def setUp(self) -> None:
         self.set_up('vehicles')
 
-        self.vehicle = VehicleTestCase.createVehicle()[0]
+        self.vehicle, self.data = VehicleTestCase.createVehicle()
         self.vehicle.save()
 
     def test_get(self):
@@ -93,14 +93,14 @@ class VehicleSerializerTestCase(TestCase, ViewSetTestCase):
             'seats': 3,
             'image': None,
             'typ': {
-                'short': 'FOO',
-                'name': 'FOOBAR'
+                'short': self.data['typ'].short,
+                'name': self.data['typ'].name
             }
         }
         response = self.client.post(self.url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(FahrzeugTyp.objects.count(), 2)
+        self.assertEqual(FahrzeugTyp.objects.count(), 1)
         self.assertEqual(Fahrzeug.objects.count(), 2)
 
     def test_update(self):

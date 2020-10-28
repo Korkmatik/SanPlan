@@ -1,11 +1,9 @@
-import os
-
 from typing import Tuple, Dict, Any
 from unittest import mock
 
 from django.test import TestCase
 
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug, fahrzeug_images
+from fahrzeuge.models import FahrzeugTyp, Fahrzeug
 
 
 class VehicleTypeTestCase(TestCase):
@@ -139,7 +137,5 @@ class VehicleTestCase(TestCase):
         filename = 'foo'
         instance = mock.MagicMock()
         instance.id = 'foobar'
-
-        ret = fahrzeug_images(instance, filename)
 
         mock_join.assert_called_with('vehicle', instance.id, filename)

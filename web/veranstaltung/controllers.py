@@ -14,4 +14,3 @@ class VeranstaltungController():
     @staticmethod
     def get_adresse_by_veranstaltung_id(id):
         return Veranstaltung.objects.get(id=id).get_adresse()
-

@@ -102,7 +102,7 @@ class EventTestCase(TestCase):
 
     def test_get_edit_url(self):
         self.event.save()
-        self.assertEqual(self.event.get_edit_url(), reverse('veranstaltung:detail', args=[str(self.event.id),]))
+        self.assertEqual(self.event.get_edit_url(), reverse('veranstaltung:detail', args=[ str(self.event.id), ]))
 
     def test_has_ansprechpartner(self):
         self.assertTrue(self.event.has_ansprechpartner())

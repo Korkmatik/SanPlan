@@ -27,4 +27,3 @@ class VeranstaltungsView(View):
                           'bis': veranstaltung.get_bis_date_time(),
                           'adresse': veranstaltung.get_adresse(),
                       })
-

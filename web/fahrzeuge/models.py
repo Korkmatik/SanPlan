@@ -66,4 +66,3 @@ class Fahrzeug(models.Model):
 
     def __str__(self):
         return str(self.kennzeichen)
-

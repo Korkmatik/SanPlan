@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: automated-tests
+name: tests
 
 on:
   push:
@@ -23,3 +23,7 @@ jobs:
         
       - name: Running tests
         run: docker-compose run web python manage.py test
+      
+      - name: Running coverage
+        run: docker-compose run web sh -c "python manage.py makemigrations && python manage.py migrate && coverage erase && coverage run manage.py test && coverage report"
+        

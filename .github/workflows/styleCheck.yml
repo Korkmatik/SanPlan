@@ -13,5 +13,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         
+      - name: Installing dependencies
+        run: pip install flake8
+        
       - name: Checking coding style
-        run: cd web/ && flake .
+        run: cd web/ && flake8 .

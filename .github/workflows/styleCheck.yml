@@ -14,5 +14,4 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Checking coding style
-        run: cd web/
-        run: flake .
+        run: cd web/ && flake .

@@ -19,7 +19,7 @@ class Adresse(models.Model):
         return str(self.ort)
 
     def has_name(self):
-        return (self.name != None) and (self.name != "")
+        return (self.name is not None) and (self.name != "")
 
     def get_google_maps_link_for_strasse(self):
         return "http://maps.google.com/maps?q={}, {}".format(self.get_strasse(), self.get_ort())
@@ -55,14 +55,13 @@ class Veranstaltung(models.Model):
         return self.address
 
     def get_edit_url(self):
-        return reverse('veranstaltung:detail', args=[str(self.id),])
+        return reverse('veranstaltung:detail', args=[ str(self.id), ])
 
     def has_ansprechpartner(self):
-        return self.ansprechPartner != None and self.ansprechPartner != ""
+        return self.ansprechPartner is not None and self.ansprechPartner != ""
 
     def get_ansprechpartner(self):
         return self.ansprechPartner
 
     def __str__(self):
         return self.titel
-

@@ -25,12 +25,12 @@ class EventControllerTestCase(TestCase):
         self.event.save()
 
     def test_get_veranstaltung_by_id(self):
-        event : Veranstaltung = VeranstaltungController.get_veranstaltung_by_id(self.event.id)
+        event: Veranstaltung = VeranstaltungController.get_veranstaltung_by_id(self.event.id)
 
         self.assertEqual(event.id, self.event.id)
         self.assertEqual(event.titel, self.event.titel)
 
     def test_get_adresse_by_veranstaltung_id(self):
-        address : Adresse = VeranstaltungController.get_adresse_by_veranstaltung_id(self.event.id)
+        address: Adresse = VeranstaltungController.get_adresse_by_veranstaltung_id(self.event.id)
 
         self.assertEqual(address.id, self.event.address.id)

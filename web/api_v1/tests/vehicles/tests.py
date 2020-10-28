@@ -59,7 +59,7 @@ class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(FahrzeugTyp.objects.count(), 1)
-        updated = FahrzeugTyp.objects.get(id=self.vehicle_type.id)
+        FahrzeugTyp.objects.get(id=self.vehicle_type.id)
         self.assertEqual(response.data, data)
 
     def test_delete(self):

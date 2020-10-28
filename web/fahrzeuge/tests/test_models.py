@@ -1,5 +1,3 @@
-import os
-
 from typing import Tuple, Dict, Any
 from unittest import mock
 
@@ -136,6 +134,7 @@ class VehicleTestCase(TestCase):
 
     @mock.patch('fahrzeuge.models.os.path.join')
     def test_vehicle_images_path(self, mock_join):
+        mock_join.side_effect = 'f'
         filename = 'foo'
         instance = mock.MagicMock()
         instance.id = 'foobar'
@@ -143,3 +142,4 @@ class VehicleTestCase(TestCase):
         ret = fahrzeug_images(instance, filename)
 
         mock_join.assert_called_with('vehicle', instance.id, filename)
+        self.assertEqual(ret, 'f')

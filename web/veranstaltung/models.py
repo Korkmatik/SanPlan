@@ -65,11 +65,4 @@ class Veranstaltung(models.Model):
 
     def __str__(self):
         return self.titel
-    
-class Qualifikation(models.Model):
-    titel = models.CharField(max_length=20)
-    kuerzel = models.CharField(max_length=10)
-
-    def __str__(self):
-        return self.titel
 

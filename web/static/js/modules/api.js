@@ -1,6 +1,7 @@
 import {getCsrfToken} from "./utils.js";
 import {launch_success_toast} from "./utils.js";
 import {launch_error_toast} from "./utils.js";
+import {toBase64} from "./utils.js";
 
 const apiURL = '/api/v1/';
 
@@ -17,10 +18,12 @@ export function postVehicle(
         "kennzeichen": licensePlate,
         "funkrufname": radioCallName,
         "status": state,
-        "vehicle_type_short": vehicleTyp,
-        "vehicle_type_name": vehicleTypeName,
+        "typ": {
+          "short": vehicleTyp,
+          "name": vehicleTypeName
+        },
         "seats": seats,
-        "image": file
+        "file": null
     };
 
     console.log(data);
@@ -37,8 +40,10 @@ export function postVehicle(
     })
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             if (data.id != undefined)
                 launch_success_toast("Fahrzeug erfolgreich erstellt!");
+
         })
         .catch(e => {
             console.error(e);

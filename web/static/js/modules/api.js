@@ -15,10 +15,10 @@ export function postVehicle(
 
     let data = {
         "name": name,
-        "kennzeichen": licensePlate,
-        "funkrufname": radioCallName,
+        "license_plate": licensePlate,
+        "radio_call_name": radioCallName,
         "status": state,
-        "typ": {
+        "type": {
           "short": vehicleTyp,
           "name": vehicleTypeName
         },

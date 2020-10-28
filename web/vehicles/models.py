@@ -19,38 +19,38 @@ class VehicleType(models.Model):
         return self.name
 
 
-class Fahrzeug(models.Model):
-    NICHT_VERFUEGBAR = "NV"
-    VERFUEGBAR = "VB"
-    WERKSTATT = "WS"
-    IM_DIENST = "ID"
+class Vehicle(models.Model):
+    NOT_AVAILABLE = "NV"
+    AVAILABLE = "VB"
+    WORKSHOP = "WS"
+    IN_SERVICE = "ID"
     STATUS_CHOICES = [
-        (NICHT_VERFUEGBAR, 'Nicht verfügbar'),
-        (VERFUEGBAR, 'Verfügbar'),
-        (WERKSTATT, 'In der Werkstatt'),
-        (IM_DIENST, 'Im Dienst'),
+        (NOT_AVAILABLE, 'Nicht verfügbar'),
+        (AVAILABLE, 'Verfügbar'),
+        (WORKSHOP, 'In der Werkstatt'),
+        (IN_SERVICE, 'Im Dienst'),
     ]
 
-    typ = models.ForeignKey(VehicleType, on_delete=models.CASCADE)
+    type = models.ForeignKey(VehicleType, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=30, blank=True, null=True)
-    kennzeichen = models.CharField(max_length=15)
-    funkrufname = models.CharField(max_length=30, null=True, blank=True)
+    license_plate = models.CharField(max_length=15)
+    radio_call_name = models.CharField(max_length=30, null=True, blank=True)
     image = models.ImageField(upload_to=vehicle_images, blank=True, null=True)
-    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=VERFUEGBAR)
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=AVAILABLE)
     seats = models.PositiveIntegerField()
 
     def get_name(self):
         return self.name
 
-    def get_kennzeichen(self):
-        return self.kennzeichen
+    def get_license_plate(self):
+        return self.license_plate
 
-    def get_funkrufname(self):
-        return self.funkrufname
+    def get_radio_call_name(self):
+        return self.radio_call_name
 
-    def get_typ(self):
-        return self.typ
+    def get_type(self):
+        return self.type
 
     def get_image_path(self):
         return self.image.image_url.url
@@ -61,8 +61,8 @@ class Fahrzeug(models.Model):
     def has_name(self):
         return (self.name is not None) and (self.name != "")
 
-    def is_verfuegbar(self):
-        return self.status == self.VERFUEGBAR
+    def is_available(self):
+        return self.status == self.AVAILABLE
 
     def __str__(self):
-        return str(self.kennzeichen)
+        return str(self.license_plate)

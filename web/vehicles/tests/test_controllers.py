@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from vehicles.controllers import VehicleController, VehicleTypeController
-from vehicles.models import Fahrzeug
+from vehicles.models import Vehicle
 from vehicles.tests.test_models import VehicleTypeTestCase
 
 
@@ -10,7 +10,7 @@ class VehicleControllerTestCase(TestCase):
     def test_get_vehicle_states(self):
         self.assertListEqual(
             VehicleController.get_vehicle_states(),
-            Fahrzeug.STATUS_CHOICES
+            Vehicle.STATUS_CHOICES
         )
 
 

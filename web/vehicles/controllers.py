@@ -1,12 +1,12 @@
 
-from .models import Fahrzeug, VehicleType
+from .models import Vehicle, VehicleType
 
 
 class VehicleController:
 
     @staticmethod
     def get_vehicle_states():
-        return Fahrzeug.STATUS_CHOICES
+        return Vehicle.STATUS_CHOICES
 
 
 class VehicleTypeController:

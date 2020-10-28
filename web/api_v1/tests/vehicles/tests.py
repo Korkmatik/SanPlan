@@ -3,7 +3,7 @@ from rest_framework import status
 
 from api_v1.tests.ViewSetTestCase import ViewSetTestCase
 from vehicles.tests.test_models import VehicleTypeTestCase, VehicleTestCase
-from vehicles.models import VehicleType, Fahrzeug
+from vehicles.models import VehicleType, Vehicle
 
 
 class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
@@ -87,35 +87,35 @@ class VehicleSerializerTestCase(TestCase, ViewSetTestCase):
     def test_post(self):
         data = {
             'name': 'Foo',
-            'kennzeichen': 'fo ds 3',
-            'funkrufname': 'fo 72/1',
+            'license_plate': 'fo ds 3',
+            'radio_call_name': 'fo 72/1',
             'status': 'VB',
             'seats': 3,
             'image': None,
-            'typ': {
-                'short': self.data['typ'].short,
-                'name': self.data['typ'].name
+            'type': {
+                'short': self.data['type'].short,
+                'name': self.data['type'].name
             }
         }
         response = self.client.post(self.url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(VehicleType.objects.count(), 1)
-        self.assertEqual(Fahrzeug.objects.count(), 2)
+        self.assertEqual(Vehicle.objects.count(), 2)
 
     def test_update(self):
         data = {
             'id': self.vehicle.id,
             'name': 'Foo',
-            'kennzeichen': 'fo ds 3',
-            'funkrufname': 'fo 72/1',
+            'license_plate': 'fo ds 3',
+            'radio_call_name': 'fo 72/1',
             'status': 'VB',
             'seats': 3,
             'image': None,
-            'typ': {
-                'id': self.vehicle.typ.id,
-                'short': self.vehicle.typ.short,
-                'name': self.vehicle.typ.name,
+            'type': {
+                'id': self.vehicle.type.id,
+                'short': self.vehicle.type.short,
+                'name': self.vehicle.type.name,
             }
         }
         response = self.client.put(self.url + str(self.vehicle.id) + "/", data, format='json')

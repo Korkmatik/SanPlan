@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from vehicles.models import Fahrzeug
+from vehicles.models import Vehicle
 from vehicles.tests.test_models import VehicleTestCase, VehicleTypeTestCase
 
 
@@ -48,7 +48,7 @@ class CreateViewTestCase(TestCase):
 
         self.assertTrue(response.context['vehicleActive'])
         self.assertTrue('vehicles/create.html' in get_template_names(response))
-        self.assertEqual(len(response.context['states']), len(Fahrzeug.STATUS_CHOICES))
+        self.assertEqual(len(response.context['states']), len(Vehicle.STATUS_CHOICES))
         self.assertEqual(len(response.context['vehicle_types']), 0)
 
     def test_get_with_vehicle_types(self):

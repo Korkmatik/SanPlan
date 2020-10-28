@@ -3,7 +3,7 @@ from unittest import mock
 
 from django.test import TestCase
 
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug
+from fahrzeuge.models import FahrzeugTyp, Fahrzeug, fahrzeug_images
 
 
 class VehicleTypeTestCase(TestCase):
@@ -134,8 +134,12 @@ class VehicleTestCase(TestCase):
 
     @mock.patch('fahrzeuge.models.os.path.join')
     def test_vehicle_images_path(self, mock_join):
+        mock_join.side_effect = 'f'
         filename = 'foo'
         instance = mock.MagicMock()
         instance.id = 'foobar'
 
+        ret = fahrzeug_images(instance, filename)
+
         mock_join.assert_called_with('vehicle', instance.id, filename)
+        self.assertEqual(ret, 'f')

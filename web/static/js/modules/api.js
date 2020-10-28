@@ -23,7 +23,7 @@ export function postVehicle(
           "name": vehicleTypeName
         },
         "seats": seats,
-        "file": null
+        "image": null
     };
 
     console.log(data);

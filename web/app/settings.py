@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'fahrzeuge.apps.FahrzeugeConfig',
     'veranstaltung.apps.VeranstaltungConfig',
     'unit.apps.UnitConfig',
+    'staff.apps.StaffConfig',
 
     'rest_framework',
 

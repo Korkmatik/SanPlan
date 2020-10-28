@@ -215,3 +215,5 @@ web/veranstaltung/migrations/
 mariadb_data/
 web/unit/migrations/*.py
 !web/unit/migrations/__init__.py
+web/staff/migrations/*
+!web/staff/migrations/__init__.py

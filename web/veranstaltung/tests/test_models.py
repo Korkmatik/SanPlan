@@ -1,8 +1,8 @@
 from typing import Tuple, Dict, Any
-import datetime
 
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from veranstaltung.models import Adresse, Veranstaltung
 
@@ -74,8 +74,8 @@ class EventTestCase(TestCase):
         addresse.save()
         data = {
             'address': addresse,
-            'vonDateTime': datetime.datetime(2020, 5, 7),
-            'bisDateTime': datetime.datetime(2020, 5, 8),
+            'vonDateTime': timezone.datetime(2020, 5, 7),
+            'bisDateTime': timezone.datetime(2020, 5, 8),
             'titel': 'Foobar',
             'ansprechPartner': 'John Doe'
         }

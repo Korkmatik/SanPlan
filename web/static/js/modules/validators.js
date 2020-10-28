@@ -13,15 +13,15 @@ function checkValue(inputBox, comparison) {
     if (comparison(inputBox.value))
         return invalid(inputBox);
 
-    return valid(inputBox);
+    return makeValid(inputBox);
 }
 
-function valid(inputBox) {
+export function makeValid(inputBox) {
     addValidClass(inputBox);
     return true;
 }
 
-function invalid(inputBox) {
+export function invalid(inputBox) {
     addInvalidClass(inputBox);
     return false;
 }

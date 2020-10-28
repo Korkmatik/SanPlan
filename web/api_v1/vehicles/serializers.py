@@ -22,16 +22,11 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Fahrzeug
-        fields = (
-            'id', 'name', 'kennzeichen', 'funkrufname', 'image', 'status', 'seats', 'typ'
-        )
+        fields = ('id', 'name', 'kennzeichen', 'funkrufname', 'image', 'status', 'seats', 'typ')
 
     def create(self, validated_data):
         # Create or get the vehicle type
-        vehicle_type = FahrzeugTyp.objects.get_or_create(
-            short=validated_data['typ']['short'],
-            name=validated_data['typ']['name'],
-        )[0]
+        vehicle_type = FahrzeugTyp.objects.get(short=validated_data['typ']['short'])
 
         # Creating and returning the vehicle
         return Fahrzeug.objects.create(
@@ -39,7 +34,7 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
             name=validated_data['name'],
             kennzeichen=validated_data['kennzeichen'],
             funkrufname=validated_data['funkrufname'],
-            image=validated_data['image'],
+            image=validated_data.get('image'),
             status=validated_data['status'],
             seats=validated_data['seats']
         )

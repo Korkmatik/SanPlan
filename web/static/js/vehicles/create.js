@@ -1,5 +1,6 @@
 import {validateNotEmptyInput} from "../modules/validators.js";
 import {validateNotNegativeInput} from "../modules/validators.js";
+import {makeValid} from "../modules/validators.js";
 import {postVehicle} from "../modules/api.js";
 
 let submitBtn = document.querySelector("#submit");
@@ -17,13 +18,19 @@ function createVehicle(event) {
     event.preventDefault();
     console.log(event);
 
-    let isValid = true;
-    isValid = validateNotEmptyInput(licensePlateInput);
-    isValid = validateNotEmptyInput(seatsInput);
-    isValid = validateNotNegativeInput(seatsInput);
-    isValid = validateNotEmptyInput(vehicleTypeInput);
-    isValid = validateNotEmptyInput(stateInput);
-    if (!isValid) return;
+    makeValid(vehicleNameInput);
+    makeValid(radioCallNameInput);
+    makeValid(imageInput);
+
+    let isValid = [];
+    isValid.push(validateNotEmptyInput(licensePlateInput));
+    isValid.push(validateNotEmptyInput(seatsInput));
+    isValid.push(validateNotNegativeInput(seatsInput));
+    isValid.push(validateNotEmptyInput(vehicleTypeInput));
+    isValid.push(validateNotEmptyInput(stateInput));
+    for (var valid of isValid)
+        if (!valid)
+            return;
 
     // TODO: add image
     let data = {
@@ -35,13 +42,16 @@ function createVehicle(event) {
         "seats": seatsInput.value
     };
 
+    let vehicleTypeName = vehicleTypeInput[vehicleTypeInput.selectedIndex].text;
+    vehicleTypeName = vehicleTypeName.match(/.* \(/)[0].replace(" (", "");
+
     postVehicle(
         vehicleNameInput.value,
         licensePlateInput.value,
         radioCallNameInput.value,
         stateInput.value,
         vehicleTypeInput.value,
-        vehicleTypeInput.innerText,
+        vehicleTypeName,
         seatsInput.value,
         imageInput.files[0]
     )

@@ -3,18 +3,18 @@ from unittest import mock
 
 from django.test import TestCase
 
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug, fahrzeug_images
+from vehicles.models import VehicleType, Vehicle, vehicle_images
 
 
 class VehicleTypeTestCase(TestCase):
 
     @staticmethod
-    def createVehicleType(short='KTW', name='Krankentransportwagen') -> Tuple[FahrzeugTyp, Dict[str, str]]:
+    def createVehicleType(short='KTW', name='Krankentransportwagen') -> Tuple[VehicleType, Dict[str, str]]:
         data = {
             'short': short,
             'name': name
         }
-        return FahrzeugTyp.objects.create(**data), data
+        return VehicleType.objects.create(**data), data
 
     def setUp(self) -> None:
         self.vehicle_type, self.data = self.createVehicleType()
@@ -35,18 +35,18 @@ class VehicleTypeTestCase(TestCase):
 class VehicleTestCase(TestCase):
 
     @staticmethod
-    def createVehicle() -> Tuple[Fahrzeug, Dict[str, Any]]:
+    def createVehicle() -> Tuple[Vehicle, Dict[str, Any]]:
         data = {
-            "typ": VehicleTypeTestCase.createVehicleType()[0],
+            "type": VehicleTypeTestCase.createVehicleType()[0],
             "name": "Foo",
-            "kennzeichen": "FO FO 43",
-            "funkrufname": "FO FO 72/1",
+            "license_plate": "FO FO 43",
+            "radio_call_name": "FO FO 72/1",
             "image": None,
-            "status": Fahrzeug.VERFUEGBAR,
+            "status": Vehicle.AVAILABLE,
             "seats": 3
         }
 
-        return Fahrzeug.objects.create(**data), data
+        return Vehicle.objects.create(**data), data
 
     def setUp(self) -> None:
         self.vehicle, self.data = VehicleTestCase.createVehicle()
@@ -59,20 +59,20 @@ class VehicleTestCase(TestCase):
 
     def test_get_kennzeichen(self):
         self.assertEqual(
-            self.vehicle.get_kennzeichen(),
-            self.data["kennzeichen"]
+            self.vehicle.get_license_plate(),
+            self.data["license_plate"]
         )
 
     def test_get_funkrufname(self):
         self.assertEqual(
-            self.vehicle.get_funkrufname(),
-            self.data['funkrufname']
+            self.vehicle.get_radio_call_name(),
+            self.data['radio_call_name']
         )
 
     def test_get_typ(self):
         self.assertEqual(
-            self.vehicle.get_typ().id,
-            self.data["typ"].id
+            self.vehicle.get_type().id,
+            self.data["type"].id
         )
 
     def test_get_status(self):
@@ -104,21 +104,21 @@ class VehicleTestCase(TestCase):
 
     def test_is_available_as_available(self):
         self.assertTrue(
-            self.vehicle.is_verfuegbar()
+            self.vehicle.is_available()
         )
 
     def test_is_available_as_not_available(self):
-        self.vehicle.status = Fahrzeug.NICHT_VERFUEGBAR
+        self.vehicle.status = Vehicle.NOT_AVAILABLE
         self.vehicle.save()
 
         self.assertFalse(
-            self.vehicle.is_verfuegbar()
+            self.vehicle.is_available()
         )
 
     def test_str_method(self):
         self.assertEqual(
             str(self.vehicle),
-            self.data['kennzeichen']
+            self.data['license_plate']
         )
 
     def test_get_image_path(self):
@@ -132,14 +132,14 @@ class VehicleTestCase(TestCase):
             image_url
         )
 
-    @mock.patch('fahrzeuge.models.os.path.join')
+    @mock.patch('vehicles.models.os.path.join')
     def test_vehicle_images_path(self, mock_join):
         mock_join.side_effect = 'f'
         filename = 'foo'
         instance = mock.MagicMock()
         instance.id = 'foobar'
 
-        ret = fahrzeug_images(instance, filename)
+        ret = vehicle_images(instance, filename)
 
         mock_join.assert_called_with('vehicle', instance.id, filename)
         self.assertEqual(ret, 'f')

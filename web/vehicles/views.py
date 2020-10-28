@@ -1,20 +1,20 @@
 from django.shortcuts import render
 from django.views import View
 
-from .models import Fahrzeug
+from .models import Vehicle
 from .controllers import VehicleController, VehicleTypeController
 
 
 class IndexView(View):
 
     def get(self, request):
-        fahrzeuge = Fahrzeug.objects.all()
+        fahrzeuge = Vehicle.objects.all()
 
         return render(
             request,
-            'fahrzeuge/index.html',
+            'vehicles/index.html',
             context={
-                'fahrzeuge': fahrzeuge,
+                'vehicles': fahrzeuge,
                 'vehicleActive': True,
             }
         )
@@ -31,6 +31,6 @@ class CreateView(View):
 
         return render(
             request,
-            'fahrzeuge/create.html',
+            'vehicles/create.html',
             context
         )

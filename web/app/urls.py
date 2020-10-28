@@ -21,7 +21,7 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
 
     path('', include('veranstaltung.urls'), name='sanitaetsdienste'),
-    path('fahrzeuge/', include('fahrzeuge.urls')),
+    path('vehicles/', include('vehicles.urls')),
 
     path('api/v1/', include('api_v1.urls')),
     path('api-auth', include('rest_framework.urls'), name='api-auth')

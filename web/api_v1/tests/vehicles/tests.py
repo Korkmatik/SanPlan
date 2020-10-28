@@ -2,8 +2,8 @@ from django.test import TestCase
 from rest_framework import status
 
 from api_v1.tests.ViewSetTestCase import ViewSetTestCase
-from fahrzeuge.tests.test_models import VehicleTypeTestCase, VehicleTestCase
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug
+from vehicles.tests.test_models import VehicleTypeTestCase, VehicleTestCase
+from vehicles.models import VehicleType, Vehicle
 
 
 class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
@@ -35,8 +35,8 @@ class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
         response = self.client.post(self.url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(FahrzeugTyp.objects.count(), 2)
-        self.assertIsNotNone(FahrzeugTyp.objects.get(name=data['name'], short=data['short']))
+        self.assertEqual(VehicleType.objects.count(), 2)
+        self.assertIsNotNone(VehicleType.objects.get(name=data['name'], short=data['short']))
 
     def test_update_name(self):
         data = {
@@ -58,15 +58,15 @@ class VehicleTypeViewSetTestCase(TestCase, ViewSetTestCase):
         response = self.client.put(self.url + str(self.vehicle_type.id) + "/", data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(FahrzeugTyp.objects.count(), 1)
-        FahrzeugTyp.objects.get(id=self.vehicle_type.id)
+        self.assertEqual(VehicleType.objects.count(), 1)
+        VehicleType.objects.get(id=self.vehicle_type.id)
         self.assertEqual(response.data, data)
 
     def test_delete(self):
         response = self.client.delete(self.url + str(self.vehicle_type.id) + "/")
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(FahrzeugTyp.objects.count(), 0)
+        self.assertEqual(VehicleType.objects.count(), 0)
 
 
 class VehicleSerializerTestCase(TestCase, ViewSetTestCase):
@@ -87,35 +87,35 @@ class VehicleSerializerTestCase(TestCase, ViewSetTestCase):
     def test_post(self):
         data = {
             'name': 'Foo',
-            'kennzeichen': 'fo ds 3',
-            'funkrufname': 'fo 72/1',
+            'license_plate': 'fo ds 3',
+            'radio_call_name': 'fo 72/1',
             'status': 'VB',
             'seats': 3,
             'image': None,
-            'typ': {
-                'short': self.data['typ'].short,
-                'name': self.data['typ'].name
+            'type': {
+                'short': self.data['type'].short,
+                'name': self.data['type'].name
             }
         }
         response = self.client.post(self.url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(FahrzeugTyp.objects.count(), 1)
-        self.assertEqual(Fahrzeug.objects.count(), 2)
+        self.assertEqual(VehicleType.objects.count(), 1)
+        self.assertEqual(Vehicle.objects.count(), 2)
 
     def test_update(self):
         data = {
             'id': self.vehicle.id,
             'name': 'Foo',
-            'kennzeichen': 'fo ds 3',
-            'funkrufname': 'fo 72/1',
+            'license_plate': 'fo ds 3',
+            'radio_call_name': 'fo 72/1',
             'status': 'VB',
             'seats': 3,
             'image': None,
-            'typ': {
-                'id': self.vehicle.typ.id,
-                'short': self.vehicle.typ.short,
-                'name': self.vehicle.typ.name,
+            'type': {
+                'id': self.vehicle.type.id,
+                'short': self.vehicle.type.short,
+                'name': self.vehicle.type.name,
             }
         }
         response = self.client.put(self.url + str(self.vehicle.id) + "/", data, format='json')

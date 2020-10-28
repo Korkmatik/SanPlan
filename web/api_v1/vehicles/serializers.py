@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from fahrzeuge.models import FahrzeugTyp, Fahrzeug
+from vehicles.models import VehicleType, Vehicle
 
 
 class VehicleTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = FahrzeugTyp
+        model = VehicleType
         fields = ('id', 'short', 'name')
 
     def create(self, validated_data):
-        vehicleType = FahrzeugTyp.objects.get_or_create(
+        vehicleType = VehicleType.objects.get_or_create(
             name=validated_data['name'],
             short=validated_data['short']
         )[0]
@@ -18,22 +18,22 @@ class VehicleTypeSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class VehicleSerializer(serializers.HyperlinkedModelSerializer):
-    typ = VehicleTypeSerializer()
+    type = VehicleTypeSerializer()
 
     class Meta:
-        model = Fahrzeug
-        fields = ('id', 'name', 'kennzeichen', 'funkrufname', 'image', 'status', 'seats', 'typ')
+        model = Vehicle
+        fields = ('id', 'name', 'license_plate', 'radio_call_name', 'image', 'status', 'seats', 'type')
 
     def create(self, validated_data):
         # Create or get the vehicle type
-        vehicle_type = FahrzeugTyp.objects.get(short=validated_data['typ']['short'])
+        vehicle_type = VehicleType.objects.get(short=validated_data['type']['short'])
 
         # Creating and returning the vehicle
-        return Fahrzeug.objects.create(
-            typ=vehicle_type,
+        return Vehicle.objects.create(
+            type=vehicle_type,
             name=validated_data['name'],
-            kennzeichen=validated_data['kennzeichen'],
-            funkrufname=validated_data['funkrufname'],
+            license_plate=validated_data['license_plate'],
+            radio_call_name=validated_data['radio_call_name'],
             image=validated_data.get('image'),
             status=validated_data['status'],
             seats=validated_data['seats']
@@ -41,18 +41,18 @@ class VehicleSerializer(serializers.HyperlinkedModelSerializer):
 
     def update(self, instance, validated_data):
         # Updating the vehicle type
-        vehicle_type_data = validated_data.pop('typ')
-        vehicle_type = FahrzeugTyp.objects.get(
+        vehicle_type_data = validated_data.pop('type')
+        vehicle_type = VehicleType.objects.get(
             short=vehicle_type_data['short']
         )
 
         # Updating the vehicle
         instance.name = validated_data['name']
-        instance.kennzeichen = validated_data['kennzeichen']
-        instance.funkrufname = validated_data['funkrufname']
+        instance.license_plate = validated_data['license_plate']
+        instance.radio_call_name = validated_data['radio_call_name']
         instance.status = validated_data['status']
         instance.seats = validated_data['seats']
-        instance.typ = vehicle_type
+        instance.type = vehicle_type
         instance.image = validated_data['image']
 
         instance.save()

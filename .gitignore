@@ -217,3 +217,5 @@ web/unit/migrations/*.py
 !web/unit/migrations/__init__.py
 web/staff/migrations/*
 !web/staff/migrations/__init__.py
+web/vehicles/migrations/*
+!web/vehicles/migrations/__init__.py

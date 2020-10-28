@@ -6,7 +6,7 @@ from fahrzeuge.models import FahrzeugTyp, Fahrzeug
 
 
 class VehicleTypeViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     queryset = FahrzeugTyp.objects.all()
     serializer_class = VehicleTypeSerializer

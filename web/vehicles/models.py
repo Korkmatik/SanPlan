@@ -61,6 +61,9 @@ class Vehicle(models.Model):
     def has_name(self):
         return (self.name is not None) and (self.name != "")
 
+    def has_radio_call_name(self):
+        return (self.radio_call_name is not None) and (self.radio_call_name != "")
+
     def is_available(self):
         return self.status == self.AVAILABLE
 

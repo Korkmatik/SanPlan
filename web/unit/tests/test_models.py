@@ -3,7 +3,7 @@ from typing import Tuple, Dict, Any
 from django.test import TestCase
 
 from unit.models import EVTUnit
-from veranstaltung.tests.test_models import EventTestCase
+from events.tests.test_models import EventTestCase
 
 
 class EVTUnitTestCase(TestCase):
@@ -56,6 +56,17 @@ class EVTUnitTestCase(TestCase):
             str(self.evt_unit),
             f"{self.evt_unit.unit_leader} {self.evt_unit.unit_second} {self.evt_unit.trainee}"
         )
+
+    def test_has_additional_information_true(self):
+        self.assertTrue(self.evt_unit.has_additional_information())
+
+    def test_has_additional_information_blank(self):
+        self.evt_unit.additional_information = ""
+        self.assertFalse(self.evt_unit.has_additional_information())
+
+    def test_has_additional_information_none(self):
+        self.evt_unit.additional_information = None
+        self.assertFalse(self.evt_unit.has_additional_information())
 
     def test_str_without_trainee(self):
         self.evt_unit.trainee = None

@@ -3,7 +3,7 @@ from typing import Tuple, List, Optional
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from veranstaltung.tests.test_models import EventTestCase
+from events.tests.test_models import EventTestCase
 
 
 class EventViewTestCase:
@@ -12,9 +12,9 @@ class EventViewTestCase:
     def setUp(url: str, args: Optional[List] = None) -> Tuple[str, Client]:
 
         if args is None:
-            url = reverse('veranstaltung:' + url)
+            url = reverse('events:' + url)
         else:
-            url = reverse('veranstaltung:' + url, args=args)
+            url = reverse('events:' + url, args=args)
         client = Client()
         return url, client
 
@@ -33,7 +33,7 @@ class IndexViewTestCase(TestCase):
         template_names = EventViewTestCase.get_template_names(response)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('veranstaltung/index.html' in template_names)
+        self.assertTrue('events/index.html' in template_names)
 
 
 class VeranstaltungsViewTestCase(TestCase):
@@ -49,4 +49,4 @@ class VeranstaltungsViewTestCase(TestCase):
         template_names = EventViewTestCase.get_template_names(response)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('veranstaltung/detail.html' in template_names)
+        self.assertTrue('events/detail.html' in template_names)

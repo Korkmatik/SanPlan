@@ -8,13 +8,13 @@ from .controllers import VehicleController, VehicleTypeController
 class IndexView(View):
 
     def get(self, request):
-        fahrzeuge = Vehicle.objects.all()
+        vehicles = Vehicle.objects.all()
 
         return render(
             request,
             'vehicles/index.html',
             context={
-                'vehicles': fahrzeuge,
+                'vehicles': vehicles,
                 'vehicleActive': True,
             }
         )

@@ -1,10 +1,10 @@
 from django.db import models
 
-from veranstaltung.models import Veranstaltung
+from events.models import Event
 
 
 class EVTUnit(models.Model):
-    event = models.ForeignKey(Veranstaltung, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     unit_leader = models.CharField(max_length=80)
     unit_second = models.CharField(max_length=80)
@@ -25,6 +25,9 @@ class EVTUnit(models.Model):
 
     def get_location(self):
         return self.location
+
+    def has_additional_information(self):
+        return (self.additional_information is not None) and (self.additional_information != "")
 
     def get_additional_information(self):
         return self.additional_information

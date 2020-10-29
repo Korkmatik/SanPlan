@@ -1,0 +1,35 @@
+{% include 'base.html' %}
+
+{% block body %}
+    <div class="d-flex justify-content-center mt-5">
+        {% for event in events %}
+            <div class="card ml-3">
+              <div class="card-header">
+                  <b>{{ event.get_title }}</b>
+              </div>
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item">{{ event.from_date_time }}</li>
+                {% if event.get_address %}
+
+                <li class="list-group-item">
+                    <b>Adresse</b>
+                    <div>
+                        {{ event.get_address.get_name|default_if_none:"--" }} <br>
+                        <a href="{{ event.get_address.get_google_maps_link_for_street }}">{{ event.get_address.get_street }}</a><br>
+                        <a href="{{ event.get_address.get_google_maps_link_for_city }}">{{ event.get_address.get_city }}</a><br>
+                    </div>
+                </li>
+                  {% endif %}
+
+                <li class="list-group-item">
+                    <b>EVTs: </b> {{ event.get_number_evts }} <br>
+                </li>
+              </ul>
+              <div class="card-footer d-flex flex-row justify-content-center">
+                  <a href="{{ event.get_detail_url }}" class="btn btn-outline-primary">Anzeigen</a>
+                  <a href="#" class="btn btn-outline-danger ml-1">Löschen</a>
+              </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

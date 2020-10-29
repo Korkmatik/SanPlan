@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-from veranstaltung.tests.test_models import EventTestCase
-from veranstaltung.controllers import VeranstaltungController
-from veranstaltung.models import Veranstaltung, Adresse
+from events.tests.test_models import EventTestCase
+from events.controllers import EventController
+from events.models import Event, Address
 
 
 class EventControllerTestCase(TestCase):
@@ -25,12 +25,12 @@ class EventControllerTestCase(TestCase):
         self.event.save()
 
     def test_get_veranstaltung_by_id(self):
-        event: Veranstaltung = VeranstaltungController.get_veranstaltung_by_id(self.event.id)
+        event: Event = EventController.get_event_by_id(self.event.id)
 
         self.assertEqual(event.id, self.event.id)
-        self.assertEqual(event.titel, self.event.titel)
+        self.assertEqual(event.title, self.event.title)
 
     def test_get_adresse_by_veranstaltung_id(self):
-        address: Adresse = VeranstaltungController.get_adresse_by_veranstaltung_id(self.event.id)
+        address: Address = EventController.get_adresse_by_event_id(self.event.id)
 
         self.assertEqual(address.id, self.event.address.id)

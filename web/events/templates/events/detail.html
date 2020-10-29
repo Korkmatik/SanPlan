@@ -1,6 +1,6 @@
 {% include 'base.html' %}
 
-{% block content %}
+{% block body %}
 <h2 class="text-center mt-4">Allgemein</h2>
 
 <div class="d-flex flex-row justify-content-center  mt-4">
@@ -14,11 +14,11 @@
       </div>
       <div class="card-body">
         <p class="card-text">
-            <b>Titel: </b>{{ veranstaltung.get_titel }} <br>
-            <b>Von: </b> {{ von }} <br>
-            <b>Bis: </b> {{ bis }} <br>
+            <b>Titel: </b>{{ event.get_title }} <br>
+            <b>Von: </b> {{ event.get_from_date_time }} <br>
+            <b>Bis: </b> {{ event.get_to_date_time }} <br>
             {% if veranstaltung.has_ansprechpartner %}
-            <b>Ansprechpartner: </b> {{ veranstaltung.get_ansprechpartner }}
+            <b>Ansprechpartner: </b> {{ event.get_contact_person }}
             {% endif %}
         </p>
       </div>
@@ -34,11 +34,11 @@
       </div>
       <div class="card-body">
         <p class="card-text">
-            {% if adresse.has_name %}
-            <b>Name: </b> {{ adresse.get_name }} <br>
+            {% if address.has_name %}
+            <b>Name: </b> {{ address.get_name }} <br>
             {% endif %}
-            <b>Straße: </b> <a href="{{ adresse.get_google_maps_link_for_strasse }}">{{ adresse.get_strasse }}</a><br>
-            <b>Ort: </b><a href="{{ adresse.get_google_maps_link_for_ort }}">{{ adresse.get_ort }}</a><br>
+            <b>Straße: </b> <a href="{{ address.get_google_maps_link_for_street }}">{{ address.get_street }} {{ address.get_street_number }}</a><br>
+            <b>Ort: </b><a href="{{ address.get_google_maps_link_for_city }}">{{ address.get_city }}</a><br>
         </p>
       </div>
     </div>
@@ -76,7 +76,7 @@
     {% for evt in evts %}
     <div class="card border-primary ml-2 mt-2">
       <div class="card-header">
-          <b>EVT - {{ evt.get_standort }}</b>
+          <b>EVT - {{ evt.get_location }}</b>
           <div class="float-right ml-5">
               <a href="#" class="btn btn-warning btn-sm">Bearbeiten</a>
               <a href="#" class="btn btn-danger btn-sm">Löschen</a>
@@ -84,15 +84,15 @@
       </div>
       <div class="card-body">
         <p class="card-text">
-            <b>Truppführer/in: </b> {{ evt.get_trupp_fuhrer }} <br>
-            <b>Zweite/r Mann/Frau: </b> {{ evt.get_personal }} <br>
+            <b>Truppführer/in: </b> {{ evt.get_leader }} <br>
+            <b>Zweite/r Mann/Frau: </b> {{ evt.get_second }} <br>
 
-            {% if evt.has_praktikant %}
-            <b>Praktikant: </b> {{ evt.get_praktikant }} <br>
+            {% if evt.has_trainee %}
+            <b>Praktikant: </b> {{ evt.get_trainee }} <br>
             {% endif %}
 
-            {% if evt.has_zusatzinformation %}
-            <b>Zusatzinformation: </b> {{ evt.get_zusatzinformation }} <br>
+            {% if evt.has_additional_information %}
+            <b>Zusatzinformation: </b> {{ evt.get_additional_information }} <br>
             {% endif %}
         </p>
       </div>

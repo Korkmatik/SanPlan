@@ -143,3 +143,19 @@ class VehicleTestCase(TestCase):
 
         mock_join.assert_called_with('vehicle', instance.id, filename)
         self.assertEqual(ret, 'f')
+
+    def test_vehicle_has_radio_call_name_null(self):
+        self.vehicle.radio_call_name = None
+
+        ret = self.vehicle.has_radio_call_name()
+        self.assertFalse(ret)
+
+    def test_vehicle_has_radio_call_name_blank(self):
+        self.vehicle.radio_call_name = ""
+
+        ret = self.vehicle.has_radio_call_name()
+        self.assertFalse(ret)
+
+    def test_vehicle_has_radio_call_name_true(self):
+        ret = self.vehicle.has_radio_call_name()
+        self.assertTrue(ret)

@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .controllers import EventController
 
 
-class IndexView(View):
+class IndexView(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request,
@@ -15,7 +16,7 @@ class IndexView(View):
                       })
 
 
-class EventsView(View):
+class EventsView(LoginRequiredMixin, View):
 
     def get(self, request, id):
         event = EventController.get_event_by_id(id)

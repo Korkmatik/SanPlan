@@ -81,3 +81,40 @@ class CreateViewTestCase(TestCase):
 
         response = self.client.get(self.url, follow=True)
         self.assertContains(response, 'Login')
+
+
+class CreateVehicleTypeViewTestCase(TestCase):
+
+    def setUp(self) -> None:
+        self.client = Client()
+        self.url = reverse('vehicles:create_vehicle_type')
+        self.user = get_user_model().objects.create_user(username='create_vehicle_type', password='create_vehicle_type')
+
+    def test_get_no_auth(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.get(self.url, follow=True)
+        self.assertContains(response, 'Login')
+
+    def test_get_for_create_authenticated(self):
+        response = self.__get_response()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            '''<input type="text" class="form-control" id="short" placeholder="z.B. KTW" size="5">'''
+        )
+        self.assertContains(
+            response,
+            '''<input type="text" class="form-control" id="name" placeholder="z.B. Krankentransportwagen" size="30">'''
+        )
+        self.assertContains(
+            response,
+            '''<script type="module" src="/static/js/vehicles/createVehicleType.js"></script>'''
+        )
+
+    def __get_response(self):
+        self.client.force_login(user=self.user)
+        return self.client.get(self.url)

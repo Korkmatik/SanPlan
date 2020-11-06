@@ -1,6 +1,7 @@
 import os
 
 from django.db import models
+from django.urls import reverse
 
 
 def vehicle_images(instance, filename):
@@ -58,6 +59,9 @@ class Vehicle(models.Model):
     def get_status(self):
         return self.status
 
+    def get_seats(self):
+        return self.seats
+
     def has_name(self):
         return (self.name is not None) and (self.name != "")
 
@@ -66,6 +70,9 @@ class Vehicle(models.Model):
 
     def is_available(self):
         return self.status == self.AVAILABLE
+
+    def get_update_url(self):
+        return reverse('vehicles:update', args=(self.id,))
 
     def __str__(self):
         return str(self.license_plate)

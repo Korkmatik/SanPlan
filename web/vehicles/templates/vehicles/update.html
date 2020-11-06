@@ -57,7 +57,7 @@
         <label for="state">Status *</label>
         <select id="state" class="form-control" required>
             {% for state in states %}
-                <option value="{{ state.0 }}" {% if vehicle.get_status == state.1 %}selected{% endif %}>
+                <option value="{{ state.0 }}" {% if vehicle.get_status == state.0 %}selected{% endif %}>
                     {{ state.1 }}
                 </option>
             {% endfor %}

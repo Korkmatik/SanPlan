@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block body %}
     <div class="d-flex flex-row flex-wrap justify-content-center">
     {% for vehicle in vehicles %}
     <div class="card ml-2 mt-4 mb-2" style="width: 18rem;">
-        {% load static %}
       <div class="card-body">
             <h5 class="card-title">
                 {% if vehicle.has_name %}
@@ -22,13 +23,18 @@
         </p>
       </div>
         <div class="card-footer d-flex justify-content-center">
-        {% if vehicle.is_available %}
-            <div class="badge badge-pill badge-success center">Verfügbar</div>
-        {% else %}
-            <div class="badge badge-pill badge-danger center">Nicht verfügbar</div>
-        {% endif %}
-        <div class="badge badge-pill badge-info center ml-1">{{ vehicle.get_type.get_short }}</div>
+            {% if vehicle.is_available %}
+                <div class="badge badge-pill badge-success center">Verfügbar</div>
+            {% else %}
+                <div class="badge badge-pill badge-danger center">Nicht verfügbar</div>
+            {% endif %}
+            <div class="badge badge-pill badge-info center ml-1">{{ vehicle.get_type.get_short }}</div>
       </div>
+
+        {% if request.user.is_superuser %}
+        <a href="{{ vehicle.get_update_url }}" class="btn btn-warning ml-2 mr-2">Bearbeiten</a>
+        <a class="btn btn-danger mt-1 ml-2 mr-2">Löschen</a>
+        {% endif %}
     </div>
     {% endfor %}
     </div>

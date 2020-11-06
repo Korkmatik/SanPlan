@@ -1,7 +1,6 @@
 import {getCsrfToken} from "./utils.js";
 import {launch_success_toast} from "./utils.js";
 import {launch_error_toast} from "./utils.js";
-import {toBase64} from "./utils.js";
 
 const apiURL = '/api/v1/';
 
@@ -48,5 +47,35 @@ export function postVehicle(
         .catch(e => {
             console.error(e);
             launch_error_toast("Fahrzeug konnte nicht erstellt werden!");
+        });
+}
+
+export function postVehicleType(data, successCallback) {
+    let url = apiURL + 'vehiclestype/';
+
+    fetch(url, {
+        method: 'POST',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken()
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+
+            if (data.id != undefined) {
+                launch_success_toast("Fahrzeug Typ wurde erfolgreich erstellt!");
+                successCallback();
+            }
+            else
+                launch_error_toast("Fahrzeug Typ konnte nicht erstellt werden!");
+        })
+        .catch(e => {
+            console.error(e);
+            launch_error_toast("Fahrzeug Typ konnte nicht erstellt werden!");
         });
 }

@@ -8,3 +8,9 @@ SanPlan is a platform to manage medical services ("Sanitätsdienste"). It will b
 # Contributing
 
 For further informations read the [wiki](https://github.com/Korkmatik/SanPlan/wiki/Contribute)
+
+# Tech Stack
+
+- Languages: HTML, CSS, JavaScript, Python
+- Frameworks: Django, Bootstrap
+- Containerization: Docker

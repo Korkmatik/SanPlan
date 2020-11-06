@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fahrzeugtyp Hinzufügen{% endblock %}
+
+{% block body %}
+
+<h1 class="mb-4">Fahrzeuztyp hinzufügen</h1>
+
+<form method="post">
+
+    <div class="form-group">
+        <label for="short">Kürzel</label>
+        <input type="text" class="form-control" id="short" placeholder="z.B. KTW" size="5">
+    </div>
+
+    <div class="form-group">
+        <label for="name">Ausgeschrieben</label>
+        <input type="text" class="form-control" id="name" placeholder="z.B. Krankentransportwagen" size="30">
+    </div>
+
+    <button id="submit_btn" type="submit" class="btn btn-outline-success">Hinzufügen</button>
+</form>
+
+{% endblock %}
+
+{% block body_end %}
+
+<script type="module" src="{% static 'js/vehicles/createVehicleType.js' %}"></script>
+
+{% endblock %}

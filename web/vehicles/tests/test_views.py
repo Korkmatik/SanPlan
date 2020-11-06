@@ -83,6 +83,72 @@ class CreateViewTestCase(TestCase):
         self.assertContains(response, 'Login')
 
 
+class UpdateViewTestCase(TestCase):
+
+    def setUp(self) -> None:
+        self.client = Client()
+        self.vehicle = VehicleTestCase.createVehicle()[0]
+        self.url = reverse('vehicles:update', args=(self.vehicle.id,))
+        self.super_user = get_user_model().objects.create_superuser(
+            username='vehicles_update',
+            password='vehicles_update'
+        )
+
+    def test_get_no_auth(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.get(self.url, follow=True)
+        self.assertContains(response, 'Login')
+
+    def test_get_as_low_priveleged_user(self):
+        user = get_user_model().objects.create_user(
+            username='vehicles_update2',
+            password='vehicles_update2'
+        )
+        self.client.force_login(user=user)
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_get(self):
+        response = self.__get_response()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            '''<input type="text" class="form-control" id="vehicle-name" placeholder="Fahrzeugname ..." '''\
+                f'''value="{self.vehicle.get_name()}">'''
+        )
+        self.assertContains(
+            response,
+            '''<input type="text" class="form-control" id="license-plate" placeholder="Kennzeichen ..." '''\
+                f'''value="{self.vehicle.get_license_plate()}" required>'''
+        )
+        self.assertContains(
+            response,
+            '''<input type="text" class="form-control" id="radio-call-name" placeholder="Funkrufname ..." '''\
+                f'''value="{self.vehicle.get_radio_call_name()}">'''
+        )
+        self.assertContains(
+            response,
+            f'''<input type="number" class="form-control" id="seats" value="{self.vehicle.get_seats()}" required>'''
+        )
+        self.assertContains(
+            response,
+            f'''<option value="{self.vehicle.get_type().get_short()}" selected>'''
+        )
+        self.assertContains(
+            response,
+            f'''<option value="{self.vehicle.get_status()}" selected>'''
+        )
+
+    def __get_response(self):
+        self.client.force_login(user=self.super_user)
+        return self.client.get(self.url)
+
+
 class CreateVehicleTypeViewTestCase(TestCase):
 
     def setUp(self) -> None:

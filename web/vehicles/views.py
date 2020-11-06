@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Vehicle
 from .controllers import VehicleController, VehicleTypeController
 
 
-class IndexView(View):
+class IndexView(LoginRequiredMixin, View):
 
     def get(self, request):
         vehicles = Vehicle.objects.all()
@@ -20,7 +21,7 @@ class IndexView(View):
         )
 
 
-class CreateView(View):
+class CreateView(LoginRequiredMixin, View):
 
     def get(self, request):
         context = {

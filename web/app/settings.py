@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'staff.apps.StaffConfig',
 
     'rest_framework',
+    'crispy_forms',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -148,3 +149,5 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+CRISPY_TEMPLATE_PACK = 'bootstrap'

@@ -35,3 +35,9 @@ class CreateView(LoginRequiredMixin, View):
             'vehicles/create.html',
             context
         )
+
+
+class CreateVehicleTypeView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return render(request, 'vehicle_type/create.html')

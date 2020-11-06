@@ -2,3 +2,15 @@
 [![style-check Actions Status](https://github.com/Korkmatik/SanPlan/workflows/style-check/badge.svg)](https://github.com/Korkmatik/SanPlan/actions?query=workflow%3Astyle-check)
 
 # SanPlan
+
+SanPlan is a platform to manage medical services ("Sanitätsdienste"). It will be possible to create plans easily.
+
+# Contributing
+
+For further informations read the [wiki](https://github.com/Korkmatik/SanPlan/wiki/Contribute)
+
+# Tech Stack
+
+- Languages: HTML, CSS, JavaScript, Python
+- Frameworks: Django, Bootstrap
+- Containerization: Docker

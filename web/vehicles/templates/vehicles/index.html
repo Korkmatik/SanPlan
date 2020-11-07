@@ -6,6 +6,9 @@
     <div class="d-flex flex-row flex-wrap justify-content-center">
     {% for vehicle in vehicles %}
     <div class="card ml-2 mt-4 mb-2" style="width: 18rem;">
+      {% if vehicle.image %}
+        <img style="width: 16rem;" src="{{ vehicle.image.url }}" alt="Bild des Fahrzeuges">
+      {% endif %}
       <div class="card-body">
             <h5 class="card-title">
                 {% if vehicle.has_name %}

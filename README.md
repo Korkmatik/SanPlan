@@ -11,7 +11,7 @@ For further informations read the [wiki](https://github.com/Korkmatik/SanPlan/wi
 
 # Testing
 
-You can read informations about testing in the [wiki](https://github.com/Korkmatik/SanPlan/wiki/Contribute#testing)
+You can read testing instructions in the [wiki](https://github.com/Korkmatik/SanPlan/wiki/Contribute#testing)
 
 # Tech Stack
 

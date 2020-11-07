@@ -9,6 +9,10 @@ SanPlan is a platform to manage medical services ("Sanitätsdienste"). It will b
 
 For further informations read the [wiki](https://github.com/Korkmatik/SanPlan/wiki/Contribute)
 
+# Testing
+
+You can read testing instructions in the [wiki](https://github.com/Korkmatik/SanPlan/wiki/Contribute#testing)
+
 # Tech Stack
 
 - Languages: HTML, CSS, JavaScript, Python

@@ -93,6 +93,10 @@ class UpdateViewTestCase(TestCase):
             username='vehicles_update',
             password='vehicles_update'
         )
+        self.user = get_user_model().objects.create_user(
+            username='vehicles_update2',
+            password='vehicles_update2'
+        )
 
     def test_get_no_auth(self):
         response = self.client.get(self.url)
@@ -103,11 +107,8 @@ class UpdateViewTestCase(TestCase):
         self.assertContains(response, 'Login')
 
     def test_get_as_low_priveleged_user(self):
-        user = get_user_model().objects.create_user(
-            username='vehicles_update2',
-            password='vehicles_update2'
-        )
-        self.client.force_login(user=user)
+
+        self.client.force_login(user=self.user)
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 404)
@@ -118,22 +119,23 @@ class UpdateViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
-            '''<input type="text" class="form-control" id="vehicle-name" placeholder="Fahrzeugname ..." '''\
-                f'''value="{self.vehicle.get_name()}">'''
+            '''<input type="text" class="form-control" id="vehicle-name" name="vehicle-name"'''
+            f''' placeholder="Fahrzeugname ..." value="{self.vehicle.get_name()}">'''
         )
         self.assertContains(
             response,
-            '''<input type="text" class="form-control" id="license-plate" placeholder="Kennzeichen ..." '''\
-                f'''value="{self.vehicle.get_license_plate()}" required>'''
+            '''<input type="text" class="form-control" id="license-plate" name="license-plate" '''
+            f'''placeholder="Kennzeichen ..." value="{self.vehicle.get_license_plate()}" required>'''
         )
         self.assertContains(
             response,
-            '''<input type="text" class="form-control" id="radio-call-name" placeholder="Funkrufname ..." '''\
-                f'''value="{self.vehicle.get_radio_call_name()}">'''
+            '''<input type="text" class="form-control" id="radio-call-name" name="radio-call-name" '''
+            f'''placeholder="Funkrufname ..." value="{self.vehicle.get_radio_call_name()}">'''
         )
         self.assertContains(
             response,
-            f'''<input type="number" class="form-control" id="seats" value="{self.vehicle.get_seats()}" required>'''
+            '''<input type="number" class="form-control" id="seats" name="seats"'''
+            f''' value="{self.vehicle.get_seats()}" required>'''
         )
         self.assertContains(
             response,
@@ -143,6 +145,62 @@ class UpdateViewTestCase(TestCase):
             response,
             f'''<option value="{self.vehicle.get_status()}" selected>'''
         )
+
+    def test_post_non_admin(self):
+        self.client.force_login(user=self.user)
+
+        data = {
+            'vehicle-type': self.vehicle.get_type().get_short(),
+            'vehicle-name': 'test123',
+            'license-plate': 'dsftest123',
+            'radio-call-name': 'asdf',
+            'image': "",
+            'state': self.vehicle.status,
+            'seats': 6,
+        }
+
+        response = self.client.post(self.url, data=data)
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_post_non_authenticated(self):
+        data = {
+            'vehicle-type': self.vehicle.get_type().get_short(),
+            'vehicle-name': 'test123',
+            'license-plate': 'dsftest123',
+            'radio-call-name': 'asdf',
+            'image': "",
+            'state': self.vehicle.status,
+            'seats': 6,
+        }
+
+        response = self.client.post(self.url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_post_admin(self):
+        self.client.force_login(user=self.super_user)
+        data = {
+            'vehicle-type': self.vehicle.get_type().get_short(),
+            'vehicle-name': 'test123',
+            'license-plate': 'dsftest123',
+            'radio-call-name': 'asdf',
+            'image': "",
+            'state': self.vehicle.status,
+            'seats': 6,
+        }
+
+        response = self.client.post(self.url, data=data, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        updated_vehicle = Vehicle.objects.get(id=self.vehicle.id)
+        self.assertEqual(updated_vehicle.type.short, data['vehicle-type'])
+        self.assertEqual(updated_vehicle.name, data['vehicle-name'])
+        self.assertEqual(updated_vehicle.license_plate, data['license-plate'])
+        self.assertEqual(updated_vehicle.radio_call_name, data['radio-call-name'])
+        self.assertEqual(updated_vehicle.status, data['state'])
+        self.assertEqual(updated_vehicle.seats, data['seats'])
 
     def __get_response(self):
         self.client.force_login(user=self.super_user)

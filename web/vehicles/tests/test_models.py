@@ -2,6 +2,7 @@ from typing import Tuple, Dict, Any
 from unittest import mock
 
 from django.test import TestCase
+from django.urls import reverse
 
 from vehicles.models import VehicleType, Vehicle, vehicle_images
 
@@ -159,3 +160,8 @@ class VehicleTestCase(TestCase):
     def test_vehicle_has_radio_call_name_true(self):
         ret = self.vehicle.has_radio_call_name()
         self.assertTrue(ret)
+
+    def test_get_update_url(self):
+        expected = reverse('vehicles:update', args=(self.vehicle.id,))
+
+        self.assertEqual(self.vehicle.get_update_url(), expected)

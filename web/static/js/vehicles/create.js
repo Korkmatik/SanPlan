@@ -54,6 +54,6 @@ function createVehicle(event) {
         vehicleTypeName,
         seatsInput.value,
         imageInput.files[0]
-    )
+    );
 
 }

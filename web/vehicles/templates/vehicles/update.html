@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fahrzeug bearbeiten{% endblock %}
+
+{% block head %}
+    <link href="{% static 'css/vehicles/vehicles.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<h1 class="mb-3">Fahrzeug bearbeiten</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+  <div class="form-group">
+    <label for="vehicle-name">Fahrzeugname (optional)</label>
+    <input type="text" class="form-control" id="vehicle-name" name="vehicle-name" placeholder="Fahrzeugname ..." value="{{ vehicle.get_name }}">
+  </div>
+
+ <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="license-plate">Kennzeichen *</label>
+      <input type="text" class="form-control" id="license-plate" name="license-plate" placeholder="Kennzeichen ..." value="{{ vehicle.get_license_plate }}" required>
+      <div class="invalid-feedback">Bitte Kennzeichen angeben!</div>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="radio-call-name">Funkrufname (optional)</label>
+      <input type="text" class="form-control" id="radio-call-name" name="radio-call-name" placeholder="Funkrufname ..." value="{{ vehicle.get_radio_call_name }}">
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="seats">Sitzplätze *</label>
+      <input type="number" class="form-control" id="seats" name="seats" value="{{ vehicle.get_seats }}" required>
+      <div class="invalid-feedback">Sitzplätze dürfen nicht leer und auch nicht kleiner als eins sein!</div>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="image">Bild (optional)</label>
+      <input type="file" class="form-control" id="image" name="image">
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="vehicle-type">Fahrzeugtyp *</label>
+        <select id="vehicle-type" name="vehicle-type" class="form-control" required>
+            {% for type in vehicle_types %}
+                <option value="{{ type.get_short }}" {% if vehicle.get_type.get_short == type.get_short %}selected{% endif %}>
+                    {{ type.get_name }} ({{ type.get_short }})
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="state">Status *</label>
+        <select id="state" name="state" class="form-control" required>
+            {% for state in states %}
+                <option value="{{ state.0 }}" {% if vehicle.get_status == state.0 %}selected{% endif %}>
+                    {{ state.1 }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button id="submit" type="submit" class="btn btn-outline-success">Speichern</button>
+</div>
+
+</form>
+
+{% endblock %}
+
+{% block body_end %}
+
+<script type="module" src="{% static 'js/vehicles/update.js' %}"></script>
+
+{% endblock %}

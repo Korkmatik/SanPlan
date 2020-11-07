@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
+from django.http import Http404, HttpResponseForbidden
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Vehicle
@@ -35,3 +37,38 @@ class CreateView(LoginRequiredMixin, View):
             'vehicles/create.html',
             context
         )
+
+
+class UpdateView(LoginRequiredMixin, View):
+
+    def get(self, request, id):
+        if not request.user.is_superuser:
+            raise Http404()
+
+        vehicle = VehicleController.get_vehicle_by_id_or_404(id)
+
+        return render(
+            request,
+            'vehicles/update.html',
+            {
+                'vehicle': vehicle,
+                'vehicle_types': VehicleTypeController.get_all_vehicle_types(),
+                'states': VehicleController.get_vehicle_states(),
+            }
+        )
+
+    def post(self, request, id):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+
+        vehicle = VehicleController.get_vehicle_by_id_or_404(id)
+
+        VehicleController.update_vehicle(vehicle, request.POST, request.FILES.get('image'))
+
+        return redirect(reverse('vehicles:index'))
+
+
+class CreateVehicleTypeView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return render(request, 'vehicle_type/create.html')

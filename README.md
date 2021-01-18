@@ -7,7 +7,7 @@ SanPlan is a platform to manage medical services ("Sanitätsdienste"). It will b
 
 # Contributing
 
-For further informations read the [wiki](https://github.com/Korkmatik/SanPlan/wiki/Contribute)
+For further informations please refer to the [wiki](https://github.com/Korkmatik/SanPlan/wiki/Contribute)
 
 # Testing
 
